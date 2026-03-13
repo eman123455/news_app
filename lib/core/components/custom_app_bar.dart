@@ -5,6 +5,24 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        leading: Image.asset('assets/images/png/logo.png'),
+        actions: [
+          Container(
+            margin: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: IconButton(
+                onPressed: () {}, icon: Icon(
+                Icons.notifications_none_outlined)),
+
+          ),
+        ]
+
+    ));
   }
 }
