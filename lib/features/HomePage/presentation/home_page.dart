@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/core/resources/app_theme.dart';
+import 'package:news_app/core/resources/app_text_style.dart';
 
 import 'widgets/custom_app_bar.dart';
 
@@ -85,11 +85,11 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text("Branding",
-                    style: AppTheme.font16BlackW600
+                    style: AppTextStyle.font16BlackW600
                     ),
                     Text(
                       'See all',
-                    style:AppTheme.font14Grey4ERegular ,)
+                    style:AppTextStyle.font14Grey4ERegular ,)
             
                   ]
             

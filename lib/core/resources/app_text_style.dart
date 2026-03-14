@@ -5,7 +5,7 @@ import 'package:news_app/core/resources/app_colors.dart';
 
 import 'app_fonts.dart';
 
-class AppTheme {
+class AppTextStyle {
   static TextStyle font16BlackW600 = GoogleFonts.poppins(
     fontSize: 16.sp,
     fontWeight: Fonts.semiBold,
