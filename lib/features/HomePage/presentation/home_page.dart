@@ -13,6 +13,15 @@ class HomePage extends StatelessWidget {
           preferredSize: Size.fromHeight(60),
           child: CustomAppBar()),
       body:Column(
+        children: [
+          Row(
+            children: [
+              Container(
+
+              )
+            ],
+          )
+        ],
 
       ));
   }
