@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/resources/app_theme.dart';
 
-import '../../../core/components/custom_app_bar.dart';
+import 'widgets/custom_app_bar.dart';
 
 
 

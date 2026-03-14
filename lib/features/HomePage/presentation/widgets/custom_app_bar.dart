@@ -11,7 +11,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding:  EdgeInsets.only(left: 12.w),
       child: AppBar(
-          leading: Image.asset('assets/images/logo.png',width: 99.w,height: 30.h,),
+          leading: Image.asset('assets/images/png/logo.png',width: 99.w,height: 30.h,),
           actions: [
             Container(
               margin: EdgeInsets.only(right: 12.w),

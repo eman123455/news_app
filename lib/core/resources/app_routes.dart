@@ -18,8 +18,6 @@ class AppRoutes {
         path: '/',
             builder: (context, state) => NavBar(),
       ),
-      GoRoute(path: '/',
-      builder: (context, state) => HomePage()),
       GoRoute(path: '/explore',
       builder: (context, state) => Explore()),
 
