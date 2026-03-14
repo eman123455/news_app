@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/resources/app_constants.dart';
 import 'package:news_app/core/resources/app_routes.dart';
-import 'package:news_app/features/HomePage/presentation/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async{
@@ -21,11 +21,14 @@ class NewsApp extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-
-      routerConfig: AppRoutes.routes,
-
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: AppRoutes.routes,
+      ),
     );
   }
 }
