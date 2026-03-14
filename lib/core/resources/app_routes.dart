@@ -29,7 +29,7 @@ class AppRoutes {
 
   static GoRouter routes = GoRouter(
     routes: [
-      GoRoute(path: kSplashView, builder: (context, state) => SplashView()),
+      GoRoute(path: kSplashView, builder: (context, state) => OnboardingView()),
       GoRoute(path: kExplore,builder: (context, state) => Explore()),
       GoRoute(path: kOnboardingView ,builder: (context, state) => OnboardingView()),
       GoRoute(path: kForgetPassView ,builder: (context, state) => ForgetPassView()),
@@ -41,7 +41,6 @@ class AppRoutes {
       GoRoute(path: kNewsView ,builder: (context, state) => NewsView()),
       GoRoute(path: kProfileView ,builder: (context, state) => ProfileView()),
       GoRoute(path: kSettingsView ,builder: (context, state) => SettingsView()),
-
   
     ],
     redirect: (context, state) async {},
