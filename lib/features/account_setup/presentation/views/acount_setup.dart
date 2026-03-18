@@ -1,10 +1,2 @@
-import 'package:flutter/material.dart';
-
-class AcountSetup extends StatelessWidget {
-  const AcountSetup({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
-  }
-}
+// This file is a duplicate and should be deleted.
+// The correct file is account_setup.dart.
