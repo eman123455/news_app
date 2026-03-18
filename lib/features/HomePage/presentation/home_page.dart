@@ -5,14 +5,11 @@ import 'widgets/custom_app_bar.dart';
 
 
 
-class HomePage extends StatefulWidget implements PreferredSizeWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
-
-  @override
-  Size get preferredSize => Size.fromHeight(60);
 }
 
 class _HomePageState extends State<HomePage> {
@@ -50,55 +47,46 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: TextField(
+                controller: searchController,
+                onChanged: search,
+                decoration: InputDecoration(
+                  hintText: 'Search',
+                  prefixIcon: Icon(Icons.search),
+                  suffixIcon: Icon(Icons.tune_outlined),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: filterNews.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(filterNews[index]),
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: TextField(
-                    controller: searchController,
-                    onChanged: search,
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: Icon(Icons.search),
-                      suffixIcon: Icon(Icons.tune_outlined),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                ),
-            
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: filterNews.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(filterNews[index]),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 16,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text("Branding",
-                    style: AppTextStyle.font16BlackW600
-                    ),
-                    Text(
-                      'See all',
-                    style:AppTextStyle.font14Grey4ERegular ,)
-            
-                  ]
-            
-                )
-            
+                Text("Branding", style: AppTextStyle.font16BlackW600),
+                Text('See all', style: AppTextStyle.font14Grey4ERegular),
               ],
             ),
-          ),
+            SizedBox(height: 16),
+          ],
         ),
+      ),
     );
   }
 }
