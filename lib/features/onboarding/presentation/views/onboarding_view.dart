@@ -18,30 +18,32 @@ class _OnboardingViewState extends State<OnboardingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: .spaceBetween,
-          children: [
-            OnboardingScreen(pageIndex: pageIndex),
-            OnboardingFooter(
-              pageIndex: pageIndex,
-              onBackPressed: () {
-                setState(() {
-                  pageIndex--;
-                });
-              },
-              onNextPressed: () {
-                setState(() {
-                  if (pageIndex == UiConstants.onboardingItems.length - 1) {
-                    // Navigate to login screen
-                    context.go(AppRoutes.kLogin);
-                  } else {
-                    pageIndex++;
-                  }
-                });
-              },
-            ),
-          ],
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: .spaceBetween,
+            children: [
+              OnboardingScreen(pageIndex: pageIndex),
+              OnboardingFooter(
+                pageIndex: pageIndex,
+                onBackPressed: () {
+                  setState(() {
+                    pageIndex--;
+                  });
+                },
+                onNextPressed: () {
+                  setState(() {
+                    if (pageIndex == UiConstants.onboardingItems.length - 1) {
+                      // Navigate to login screen
+                      context.go(AppRoutes.kLogin);
+                    } else {
+                      pageIndex++;
+                    }
+                  });
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
