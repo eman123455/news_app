@@ -6,7 +6,7 @@ import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dar
 import 'package:news_app/features/HomePage/presentation/home_page.dart';
 import 'package:news_app/features/Trending/presentation/views/trending_view.dart';
 import 'package:news_app/features/account_setup/presentation/views/acount_setup.dart';
-import 'package:news_app/features/news/presentation/views/news_view.dart';
+import 'package:news_app/features/news/presentation/views/news_details_view.dart';
 import 'package:news_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:news_app/features/profile/presentation/profile_view.dart';
 import 'package:news_app/features/settings/presentation/views/settings_view.dart';
@@ -31,7 +31,7 @@ class AppRoutes {
 
   static GoRouter routes = GoRouter(
     routes: [
-      GoRoute(path: kSplashView, builder: (context, state) => TrendingView()),
+      GoRoute(path: kSplashView, builder: (context, state) => NewsDetailsView()),
       GoRoute(path: kExplore, builder: (context, state) => Explore()),
       GoRoute(
         path: kOnboardingView,
@@ -47,7 +47,7 @@ class AppRoutes {
       GoRoute(path: kBookMarkView, builder: (context, state) => BookMarkView()),
       GoRoute(path: kHomePage, builder: (context, state) => HomePage()),
       GoRoute(path: kTrendingView, builder: (context, state) => TrendingView()),
-      GoRoute(path: kNewsView, builder: (context, state) => NewsView()),
+      GoRoute(path: kNewsView, builder: (context, state) => NewsDetailsView()),
       GoRoute(path: kProfileView, builder: (context, state) => ProfileView()),
       GoRoute(path: kSettingsView, builder: (context, state) => SettingsView()),
     ],
