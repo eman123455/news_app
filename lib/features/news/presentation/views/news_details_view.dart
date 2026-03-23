@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/components/custom_app_bar.dart';
 import 'package:news_app/core/resources/app_fonts.dart';
+import 'package:news_app/features/news/presentation/widgets/comments_bottom_sheet.dart';
 import 'package:news_app/features/news/presentation/widgets/read_more_text.dart';
 
 class NewsDetailsView extends StatelessWidget {
@@ -131,7 +132,7 @@ class NewsDetailsView extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         height: 80.h,
-        padding: EdgeInsets.only(left: 24.w,right: 48.w),
+        padding: EdgeInsets.only(left: 24.w, right: 48.w),
         decoration: BoxDecoration(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -151,8 +152,20 @@ class NewsDetailsView extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.chat_bubble_outline, color: Colors.black),
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          // isDismissible: false, // يمنع القفل بالضغط برا
+                          // enableDrag: false,    // يمنع السحب لتحت يقفل
+                          backgroundColor: Colors.transparent,
+                          builder: (context) => const CommentsSheet(),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.chat_bubble_outline,
+                        color: Colors.black,
+                      ),
                     ),
                     Text('24.5K'),
                   ],
@@ -161,8 +174,7 @@ class NewsDetailsView extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(
-              Icons.bookmark_outlined, color: Colors.blue),
+              icon: Icon(Icons.bookmark_outlined, color: Colors.blue),
             ),
           ],
         ),
