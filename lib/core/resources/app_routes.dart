@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:news_app/core/components/nav_bar.dart';
 import 'package:news_app/features/Auth/SignUp/presentation/views/sign_up.dart';
 import 'package:news_app/features/Auth/forget_password/presentation/views/forget_pass_view.dart';
 import 'package:news_app/features/Auth/login/presentation/views/login.dart';
@@ -31,7 +32,7 @@ class AppRoutes {
 
   static GoRouter routes = GoRouter(
     routes: [
-      GoRoute(path: kSplashView, builder: (context, state) => NewsDetailsView()),
+      GoRoute(path: kSplashView, builder: (context, state) => NavBar()),
       GoRoute(path: kExplore, builder: (context, state) => Explore()),
       GoRoute(
         path: kOnboardingView,
