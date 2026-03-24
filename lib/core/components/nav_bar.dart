@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/resources/app_colors.dart';
+import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dart';
 import 'package:news_app/features/Explore/presentation/view/explore_view.dart';
 
 import '../../features/HomePage/presentation/home_page.dart';
@@ -19,7 +20,7 @@ class _NavBarState extends State<NavBar> {
   final List<Widget> pages = [
     HomePage(),
     Explore(),
-    // BookmarkPage(),
+    BookMarkView(),
     // ProfilePage(),
   ];
 
