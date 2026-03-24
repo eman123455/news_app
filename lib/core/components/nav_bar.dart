@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/resources/app_colors.dart';
+import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dart';
 import 'package:news_app/features/Explore/presentation/view/explore_view.dart';
 
 import '../../features/HomePage/Data/RepositryImp/repo_imp.dart';
@@ -28,7 +29,7 @@ class _NavBarState extends State<NavBar> {
         )..add(FetchNews(category: null)),
         child: HomePage()),
     Explore(),
-    // BookmarkPage(),
+    BookMarkView(),
     // ProfilePage(),
   ];
 
