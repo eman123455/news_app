@@ -1,22 +1,26 @@
-  import 'package:flutter/material.dart';
-  import 'package:flutter_screenutil/flutter_screenutil.dart';
-  import 'package:news_app/core/resources/app_constants.dart';
-  import 'package:news_app/core/resources/app_routes.dart';
-  import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:news_app/core/resources/app_constants.dart';
+import 'package:news_app/core/resources/app_routes.dart';
+import 'package:news_app/features/HomePage/presentation/widgets/notification_services.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'firebase_options.dart';
 
-  void main() async{
-    WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await NotificationServices().initNotifications();
 
-    await Supabase.initialize(
-      url: AppConstants.projectUrl,
-      anonKey: AppConstants.anonKey,
-    );
+  await Supabase.initialize(
+    url: AppConstants.projectUrl,
+    anonKey: AppConstants.anonKey,
+  );
 
-    runApp(const NewsApp());
-  }
+  runApp(const NewsApp());
+}
 
-  class NewsApp extends StatelessWidget {
-    const NewsApp({super.key});
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
     
     @override
@@ -32,3 +36,4 @@
       );
     }
   }
+}
