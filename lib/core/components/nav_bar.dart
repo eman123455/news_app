@@ -4,6 +4,7 @@ import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dar
 import 'package:news_app/features/Explore/presentation/view/explore_view.dart';
 
 import '../../features/HomePage/presentation/home_page.dart';
+import '../../features/profile/presentation/profile_view.dart';
 
   class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -21,7 +22,7 @@ class _NavBarState extends State<NavBar> {
     HomePage(),
     Explore(),
     BookMarkView(),
-    // ProfilePage(),
+    ProfileView(),
   ];
 
   @override
@@ -36,7 +37,9 @@ class _NavBarState extends State<NavBar> {
 
         onTap: (index) {
           setState(() {
-            currentIndex = index;
+            if (index < pages.length) {
+              currentIndex = index;
+            }
           });
         },
 

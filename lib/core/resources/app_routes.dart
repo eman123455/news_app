@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/components/nav_bar.dart';
 import 'package:news_app/features/Auth/SignUp/presentation/views/sign_up.dart';
 import 'package:news_app/features/Auth/forget_password/presentation/views/forget_pass_view.dart';
@@ -6,12 +7,13 @@ import 'package:news_app/features/Auth/login/presentation/views/login.dart';
 import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dart';
 import 'package:news_app/features/HomePage/presentation/home_page.dart';
 import 'package:news_app/features/Trending/presentation/views/trending_view.dart';
+import 'package:news_app/features/account_setup/account_setup_business_logic/cubit/account_setup_cubit.dart';
+import 'package:news_app/features/account_setup/data/repo/account_setup_repo_implementation.dart';
 import 'package:news_app/features/account_setup/presentation/views/acount_setup.dart';
 import 'package:news_app/features/news/presentation/views/news_details_view.dart';
 import 'package:news_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:news_app/features/profile/presentation/profile_view.dart';
 import 'package:news_app/features/settings/presentation/views/settings_view.dart';
-import 'package:news_app/features/splash/presentation/views/splash_view.dart';
 import '../../features/Explore/presentation/view/explore_view.dart';
 
 class AppRoutes {
@@ -44,7 +46,13 @@ class AppRoutes {
       ),
       GoRoute(path: kLogin, builder: (context, state) => Login()),
       GoRoute(path: kSignUp, builder: (context, state) => SignUp()),
-      GoRoute(path: kAcountSetup, builder: (context, state) => AcountSetup()),
+      GoRoute(
+        path: kAcountSetup,
+        builder: (context, state) => BlocProvider(
+          create: (_) => AccountSetupCubit(AccountSetupRepoImplementation()),
+          child: const AcountSetup(),
+        ),
+      ),
       GoRoute(path: kBookMarkView, builder: (context, state) => BookMarkView()),
       GoRoute(path: kHomePage, builder: (context, state) => HomePage()),
       GoRoute(path: kTrendingView, builder: (context, state) => TrendingView()),
@@ -52,6 +60,6 @@ class AppRoutes {
       GoRoute(path: kProfileView, builder: (context, state) => ProfileView()),
       GoRoute(path: kSettingsView, builder: (context, state) => SettingsView()),
     ],
-    redirect: (context, state) async {},
+    redirect: (context, state) async => null,
   );
 }
