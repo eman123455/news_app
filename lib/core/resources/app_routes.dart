@@ -14,6 +14,7 @@ import 'package:news_app/features/Auth/forget_password/presentation/views/reset_
 import 'package:news_app/features/Auth/login/presentation/views/login.dart';
 import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dart';
 import 'package:news_app/features/HomePage/presentation/home_page.dart';
+import 'package:news_app/features/Trending/presentation/views/trending_view.dart';
 import 'package:news_app/features/account_setup/presentation/views/acount_setup.dart';
 import 'package:news_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:news_app/features/profile/presentation/profile_view.dart';
