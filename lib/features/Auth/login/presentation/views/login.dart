@@ -64,7 +64,9 @@ class Login extends StatelessWidget {
             CustomeButton(
               height: 55,
               color: AppColors.navBarBlue,
-              onPressend: () {},
+              onPressend: () {
+                context.go(AppRoutes.kNavBar);
+              },
               buttonName: 'Login',
             ),
 
