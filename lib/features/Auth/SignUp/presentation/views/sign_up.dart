@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:news_app/core/components/custome_button.dart';
 import 'package:news_app/core/components/custome_text_field.dart';
 import 'package:news_app/core/resources/app_colors.dart';
+import 'package:news_app/core/resources/app_routes.dart';
 import 'package:news_app/features/Auth/SignUp/presentation/widgets/footer.dart';
 import 'package:news_app/features/Auth/SignUp/presentation/widgets/hero-section.dart';
 
@@ -49,7 +51,9 @@ class SignUp extends StatelessWidget {
               CustomeButton(
                 height: 55,
                 color: AppColors.navBarBlue,
-                onPressend: () {},
+                onPressend: () {
+                  context.go(AppRoutes.kAcountSetup);
+                },
                 buttonName: 'Sign Up',
               ),
 
