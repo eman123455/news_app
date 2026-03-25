@@ -9,18 +9,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.only(left: 12.w),
+      padding:  EdgeInsets.only(left: 9.w),
       child: AppBar(
-          leading: Image.asset('assets/images/png/logo.png',width: 99.w,height: 30.h,),
+        backgroundColor: Colors.white,
+          leading: Image.asset('assets/images/png/logo.png',width: 150.w,height: 30.h,),
           actions: [
             Container(
-              margin: EdgeInsets.only(right: 12.w),
+              margin: EdgeInsets.only(right: 8.w),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: IconButton(
-                padding: EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(8.0),
                   constraints: BoxConstraints(),
                   onPressed: () {},
                   icon: Icon(

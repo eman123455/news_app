@@ -16,6 +16,11 @@ class AppTextStyle {
       fontWeight: Fonts.regular,
       color: AppColors.grey4E
   );
+  static TextStyle font13Grey4ERegular = GoogleFonts.poppins(
+      fontSize: 13.sp,
+      fontWeight: Fonts.regular,
+      color: AppColors.grey4E
+  );
   static ThemeData lightTheme = ThemeData(
     textTheme: GoogleFonts.poppinsTextTheme(),
   );

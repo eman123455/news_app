@@ -1,17 +1,21 @@
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:news_app/core/components/nav_bar.dart';
 import 'package:news_app/features/Auth/SignUp/presentation/views/sign_up.dart';
 import 'package:news_app/features/Auth/forget_password/presentation/views/forget_pass_view.dart';
 import 'package:news_app/features/Auth/login/presentation/views/login.dart';
 import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dart';
 import 'package:news_app/features/HomePage/presentation/home_page.dart';
 import 'package:news_app/features/account_setup/presentation/views/acount_setup.dart';
-import 'package:news_app/features/news/presentation/views/news_view.dart';
 import 'package:news_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:news_app/features/profile/presentation/profile_view.dart';
 import 'package:news_app/features/settings/presentation/views/settings_view.dart';
-import 'package:news_app/features/splash/presentation/views/splash_view.dart';
 import '../../features/Explore/presentation/view/explore_view.dart';
+import '../../features/HomePage/Data/RepositryImp/repo_imp.dart';
+import '../../features/HomePage/Domain/UsesCase/use_case_news.dart';
+import '../../features/HomePage/presentation/logic/news_bloc.dart';
+import '../../features/HomePage/presentation/logic/news_event.dart';
 class AppRoutes {
   static const String kSplashView = '/';
   static const String kExplore= '/Explore';
@@ -29,7 +33,9 @@ class AppRoutes {
 
   static GoRouter routes = GoRouter(
     routes: [
+      GoRoute(path: kSplashView, builder: (context, state) => NavBar()),
       GoRoute(path: kSplashView, builder: (context, state) => OnboardingView()),
+
       GoRoute(path: kExplore,builder: (context, state) => Explore()),
       GoRoute(path: kOnboardingView ,builder: (context, state) => OnboardingView()),
       GoRoute(path: kForgetPassView ,builder: (context, state) => ForgetPassView()),
@@ -37,8 +43,15 @@ class AppRoutes {
       GoRoute(path: kSignUp ,builder: (context, state) => SignUp()),
       GoRoute(path: kAcountSetup ,builder: (context, state) => AcountSetup()),
       GoRoute(path: kBookMarkView ,builder: (context, state) => BookMarkView()),
-      GoRoute(path: kHomePage ,builder: (context, state) => HomePage()),
-      GoRoute(path: kNewsView ,builder: (context, state) => NewsView()),
+      GoRoute(
+        path: kHomePage,
+        builder: (context, state) => BlocProvider(
+          create: (context) => NewsBloc(
+            UseCaseNews(RepoImpl()),
+          )..add(FetchNews(category: null)),
+          child: const HomePage(),
+        ),
+      ),
       GoRoute(path: kProfileView ,builder: (context, state) => ProfileView()),
       GoRoute(path: kSettingsView ,builder: (context, state) => SettingsView()),
   
