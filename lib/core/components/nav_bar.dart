@@ -30,6 +30,7 @@ class _NavBarState extends State<NavBar> {
         child: HomePage()),
     Explore(),
     BookMarkView(),
+    ProfileView(),
     // ProfilePage(),
   ];
 
@@ -47,7 +48,9 @@ class _NavBarState extends State<NavBar> {
 
         onTap: (index) {
           setState(() {
-            currentIndex = index;
+            if (index < pages.length) {
+              currentIndex = index;
+            }
           });
         },
 

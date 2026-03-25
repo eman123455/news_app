@@ -15,7 +15,10 @@ import 'package:news_app/features/Auth/login/presentation/views/login.dart';
 import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dart';
 import 'package:news_app/features/HomePage/presentation/home_page.dart';
 import 'package:news_app/features/Trending/presentation/views/trending_view.dart';
+import 'package:news_app/features/account_setup/account_setup_business_logic/cubit/account_setup_cubit.dart';
+import 'package:news_app/features/account_setup/data/repo/account_setup_repo_implementation.dart';
 import 'package:news_app/features/account_setup/presentation/views/acount_setup.dart';
+import 'package:news_app/features/news/presentation/views/news_details_view.dart';
 import 'package:news_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:news_app/features/profile/presentation/profile_view.dart';
 import 'package:news_app/features/settings/presentation/views/settings_view.dart';
@@ -106,6 +109,6 @@ class AppRoutes {
       GoRoute(path: kProfileView, builder: (context, state) => ProfileView()),
       GoRoute(path: kSettingsView, builder: (context, state) => SettingsView()),
     ],
-    redirect: (context, state) async {},
+    redirect: (context, state) async => null,
   );
 }
