@@ -1,4 +1,1 @@
-
-class SignUpWebServices {
-  
-}
+class SignUpWebServices {}

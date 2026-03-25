@@ -1,4 +1,1 @@
-
-class BookMarkWebServices {
-  
-}
+class BookMarkWebServices {}

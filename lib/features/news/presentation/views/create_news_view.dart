@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class BookMarkView extends StatelessWidget {
-  const BookMarkView({super.key});
+class CreateNewsView extends StatelessWidget {
+  const CreateNewsView({super.key});
 
   @override
   Widget build(BuildContext context) {
