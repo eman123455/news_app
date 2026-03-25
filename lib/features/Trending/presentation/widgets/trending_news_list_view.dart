@@ -24,7 +24,7 @@ class _TrendingNewsListViewState extends State<TrendingNewsListView> {
 
   }
   Future<void> init() async {
-    articles = await trendingRepo.getTrending();
+    // articles = await trendingRepo.getTrending();
     print(articles.length);
     print('--------');
     for (var article in articles) {

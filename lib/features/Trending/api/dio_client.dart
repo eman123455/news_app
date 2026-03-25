@@ -5,9 +5,9 @@ class DioClient {
   static Dio get instance {
     final dio = Dio(
       BaseOptions(
-        baseUrl: AppConstants.newsApiBaseUrl,
+        baseUrl: AppConstants.baseUrl,
         queryParameters: {
-          'apiKey': AppConstants.newsApiKey,
+          'apiKey': AppConstants.apiKey,
         },
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
