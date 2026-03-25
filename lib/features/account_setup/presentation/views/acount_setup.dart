@@ -35,7 +35,7 @@ class AcountSetup extends StatelessWidget {
               icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
               onPressed: () {
                 if (s.stepIndex == 0) {
-                  context.pop();
+                  context.go(AppRoutes.kSignUp);
                 } else {
                   context.read<AccountSetupCubit>().goBack();
                 }
