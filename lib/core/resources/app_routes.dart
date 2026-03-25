@@ -11,6 +11,8 @@ import 'package:news_app/features/Auth/forget_password/presentation/views/confim
 import 'package:news_app/features/Auth/forget_password/presentation/views/forget_pass_view.dart';
 import 'package:news_app/features/Auth/forget_password/presentation/views/otp_view.dart';
 import 'package:news_app/features/Auth/forget_password/presentation/views/reset_password_view.dart';
+import 'package:news_app/features/Auth/login/data/login_web_services/login_web_services.dart';
+import 'package:news_app/features/Auth/login/login_business_logic/login_cubit/login_cubit.dart';
 import 'package:news_app/features/Auth/login/presentation/views/login.dart';
 import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dart';
 import 'package:news_app/features/HomePage/presentation/home_page.dart';
@@ -55,7 +57,15 @@ class AppRoutes {
         path: kForgetPassView,
         builder: (context, state) => ForgetPassView(),
       ),
-      GoRoute(path: kLogin, builder: (context, state) => Login()),
+      GoRoute(
+        path: kLogin,
+        builder: (context, state) {
+          return BlocProvider(
+            create: (_) => LoginCubit(LoginWebServices()),
+            child: Login(),
+          );
+        },
+      ),
       GoRoute(
         path: kSignUp,
         builder: (context, state) {

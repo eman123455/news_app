@@ -20,6 +20,7 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _globalKey = GlobalKey();
+  bool isPassword = true;
 
   @override
   void dispose() {
@@ -73,8 +74,17 @@ class _SignUpState extends State<SignUp> {
                         CustomeTextField(
                           controller: _passwordController,
                           label: "Password",
-                          isPassword: true,
-                          suffixIcon: const Icon(Icons.visibility_off_outlined),
+                          isPassword: isPassword,
+                          suffixIcon: GestureDetector(
+                            child: isPassword
+                                ? Icon(Icons.visibility_off_outlined)
+                                : Icon(Icons.visibility_sharp),
+                            onTap: () {
+                              setState(() {
+                                isPassword = !isPassword;
+                              });
+                            },
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
