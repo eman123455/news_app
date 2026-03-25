@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:news_app/core/resources/app_routes.dart';
 import 'package:news_app/core/resources/app_text_style.dart';
 import 'package:news_app/features/HomePage/Domain/Entity/article_entity.dart';
 import 'package:news_app/features/HomePage/presentation/widgets/category_filter_tabs.dart';
@@ -100,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                           Text("Trending",
                               style: AppTextStyle.font16BlackW600),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {context.go(AppRoutes.kTrendingView);},
                             child: Text('See all',
                                 style: AppTextStyle.font14Grey4ERegular),
                           ),

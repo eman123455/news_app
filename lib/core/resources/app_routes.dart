@@ -46,6 +46,8 @@ class AppRoutes {
   static const String kSettingsView = '/SettingsView';
   static const String kOtpView = '/OtpView';
   static const String kResetPassView = '/ResetPassView';
+  static const String kTrendingView = '/TrendingView';
+  static const String kNewsDetailsView = '/newsDetailsView';
   static const String kConfirmePassView = '/ConfirmePassView';
 
   static GoRouter routes = GoRouter(
@@ -80,6 +82,8 @@ class AppRoutes {
       ),
       GoRoute(path: kBookMarkView, builder: (context, state) => BookMarkView()),
       GoRoute(path: kHomePage, builder: (context, state) => HomePage()),
+      GoRoute(path: kTrendingView, builder: (context, state) => TrendingView()),
+      GoRoute(path: kNewsDetailsView, builder: (context, state) => NewsDetailsView()),
       GoRoute(path: kProfileView, builder: (context, state) => ProfileView()),
       GoRoute(path: kSettingsView, builder: (context, state) => SettingsView()),
       GoRoute(path: kOtpView, builder: (context, state) => OtpScreen()),

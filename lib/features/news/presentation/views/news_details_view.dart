@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:news_app/core/components/custom_app_bar.dart';
 import 'package:news_app/core/resources/app_fonts.dart';
 import 'package:news_app/features/news/presentation/widgets/comments_bottom_sheet.dart';
@@ -19,7 +20,9 @@ class NewsDetailsView extends StatelessWidget {
           icon: Icon(Icons.more_vert),
         ),
         leadingIconButton: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            context.pop();
+          },
           icon: Icon(Icons.arrow_back),
         ),
       ),
