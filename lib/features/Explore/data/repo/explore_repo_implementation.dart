@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:news_app/core/storage/local_storage.dart';
 import 'package:news_app/features/Explore/data/model/explore_model.dart';
 import 'package:news_app/features/Explore/data/repo/explore_repo.dart';
 import 'package:news_app/features/Explore/network/dio_client.dart';
@@ -23,7 +24,7 @@ class ExploreRepositoryImpl implements ExploreRepository {
         '/posts',
         queryParameters: {
           'select':
-              '*,profile:profiles!user_id(*),likes(*),comments(*,profile:profiles!user_id(*))',
+          '*,profile:profiles!user_id(*),likes(*),comments(*,profile:profiles!user_id(*)),category:categories!category_id(*)',
           'order': 'created_at.desc',
         },
       );
@@ -41,6 +42,7 @@ class ExploreRepositoryImpl implements ExploreRepository {
     }
   }
 
+  @override
   Future<List<ExploreModel>> getFollowingsExplores(
     List<dynamic> followingsUsersList,
   ) async {
@@ -48,7 +50,7 @@ class ExploreRepositoryImpl implements ExploreRepository {
       '/posts',
       queryParameters: {
         'select':
-            '*,profile:profiles!user_id(*),likes(*),comments(*,profile:profiles!user_id(*))',
+            '*,profile:profiles!user_id(*),likes(*),comments(*,profile:profiles!user_id(*)),category:categories!category_id(*)',
         'user_id':
             'in.(${followingsUsersList.map((e) => e['following_id']).join(',')})',
         'order': 'created_at.desc',
@@ -58,8 +60,10 @@ class ExploreRepositoryImpl implements ExploreRepository {
     return data.map((e) => ExploreModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
+  @override
   Future<List<dynamic>> getFollowingsUsersList() async {
-    final userId = '062b90f8-49cd-4911-8d3a-265924aa0597';
+    final userId = await LocalStorage.getUserId();
+    print(userId);
     print('getFollowings');
     final response = await _dio.get(
       '/follows',

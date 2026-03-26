@@ -5,35 +5,6 @@ import 'package:news_app/features/Explore/data/repo/explore_repo_implementation.
 
 part 'explore_state.dart';
 
-// class ExploreCubit extends Cubit<ExploreState> {
-//   ExploreCubit(this._repository) : super(ExploreInitial());
-//   final ExploreRepositoryImpl _repository;
-//   List<ExploreModel>? allExploresNews;
-//   List<ExploreModel>? followingsExplores;
-//   List<dynamic>? followingsUsersList;
-//
-//   Future<void> getExplores() async {
-//     emit(ExploreLoading());
-//     try {
-//       allExploresNews = await _repository.getAllExploresNews();
-//       followingsUsersList = await _repository.getFollowingsUsersList();
-//       followingsExplores = await _repository.getFollowingsExplores(
-//         followingsUsersList!,
-//       );
-//       print('followingsUsersList: ${followingsExplores?[0].userId}');
-//       print('followingsExplores: ${followingsExplores?[1].userId}');
-//
-//       emit(
-//         ExploreLoaded(
-//           explores: allExploresNews!,
-//           followingExplores: followingsExplores!,
-//         ),
-//       );
-//     } catch (e) {
-//       emit(ExploreError(e.toString()));
-//     }
-//   }
-// }
 class ExploreCubit extends Cubit<ExploreState> {
   ExploreCubit(this._repository) : super(ExploreInitial());
   final ExploreRepositoryImpl _repository;
@@ -47,14 +18,17 @@ class ExploreCubit extends Cubit<ExploreState> {
           ? <ExploreModel>[]
           : await _repository.getFollowingsExplores(followingsUsersList);
 
-      emit(ExploreLoaded(
-        explores: allExploresNews,
-        followingExplores: followingsExplores,
-      ));
+      emit(
+        ExploreLoaded(
+          explores: allExploresNews,
+          followingExplores: followingsExplores,
+        ),
+      );
     } catch (e) {
       emit(ExploreError(e.toString()));
     }
   }
+
   Future<void> refresh() => getExplores();
 
   void changeTab(int index) {

@@ -1,3 +1,4 @@
+import 'package:news_app/features/Explore/data/model/category_model.dart';
 import 'package:news_app/features/Explore/data/model/comment_model.dart';
 import 'package:news_app/features/Explore/data/model/like_model.dart';
 import 'package:news_app/features/Explore/data/model/user_model.dart';
@@ -16,6 +17,7 @@ class ExploreModel {
   UserModel? user;
   List<LikeModel> likes;
   List<CommentModel> comments;
+  CategoryModel? category;
 
   ExploreModel({
     required this.id,
@@ -30,6 +32,7 @@ class ExploreModel {
     this.user,
     required this.likes,
     required this.comments,
+    this.category,
   });
 
   factory ExploreModel.fromJson(Map<String, dynamic> json) {
@@ -45,19 +48,24 @@ class ExploreModel {
       categoryId: json['category_id'] as int,
       country: json['country'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
+      category: json['category'] != null
+          ? CategoryModel.fromJson(json['category'])
+          : null,
 
       user: json['profile'] != null
           ? UserModel.fromJson(json['profile'])
           : null,
 
-      likes: (json['likes'] as List?)
-          ?.map((e) => LikeModel.fromJson(e))
-          .toList() ??
+      likes:
+          (json['likes'] as List?)
+              ?.map((e) => LikeModel.fromJson(e))
+              .toList() ??
           [],
 
-      comments: (json['comments'] as List?)
-          ?.map((e) => CommentModel.fromJson(e))
-          .toList() ??
+      comments:
+          (json['comments'] as List?)
+              ?.map((e) => CommentModel.fromJson(e))
+              .toList() ??
           [],
     );
   }
@@ -75,6 +83,7 @@ class ExploreModel {
       'created_at': createdAt.toIso8601String(),
       'profile': user?.toJson(),
       'likes': likes.map((e) => e.toJson()).toList(),
+      'category': category?.toJson(),
       'comments': comments.map((e) => e.toJson()).toList(),
     };
   }

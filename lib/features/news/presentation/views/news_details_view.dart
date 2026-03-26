@@ -37,15 +37,25 @@ class NewsDetailsView extends StatelessWidget {
                   Row(
                     children: [
                       CircleAvatar(
-                        backgroundImage: NetworkImage(explore.user?.image??explore.imageUrl),
                         radius: 25.r,
+                        child: Image.network(
+                          explore.user?.image??'',
+                          errorBuilder: (_, _, _) {
+                            return Image.asset(
+                              'assets/images/png/splash_logo.png',
+                              width: 380.w,
+                              height: 248.h,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        ),
                       ),
                       SizedBox(width: 4.w),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            explore.user?.name??"Unknown User",
+                            explore.user?.name ?? "Unknown User",
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: Fonts.semiBold,
@@ -87,29 +97,40 @@ class NewsDetailsView extends StatelessWidget {
                   width: 380.w,
                   height: 248.h,
                   fit: BoxFit.cover,
+                  errorBuilder: (_, _, _) {
+                    return Image.asset(
+                      'assets/images/png/splash_logo.png',
+                      width: 380.w,
+                      height: 248.h,
+                      fit: BoxFit.cover,
+                    );
+                  },
                 ),
               ),
               SizedBox(height: 16.h),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    explore.country,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: Fonts.regular,
+              SizedBox(
+                width: 1.sw,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      explore.category?.name??'Unknown Category',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: Fonts.regular,
+                      ),
                     ),
-                  ),
-                  ReadMoreText(text: explore.title),
-                  SizedBox(height: 16.h),
-                  Text(
-                    explore.content,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: Fonts.regular,
+                    ReadMoreText(text: explore.title),
+                    SizedBox(height: 16.h),
+                    Text(
+                      explore.content,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: Fonts.regular,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -144,7 +165,10 @@ class NewsDetailsView extends StatelessWidget {
                           builder: (context) => const CommentsSheet(),
                         );
                       },
-                      icon: Icon(Icons.chat_bubble_outline, color: Colors.black),
+                      icon: Icon(
+                        Icons.chat_bubble_outline,
+                        color: Colors.black,
+                      ),
                     ),
                     Text('24.5K'),
                   ],

@@ -15,28 +15,35 @@ class ExploreItem extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.push(AppRoutes.kNewsDetailsView, extra: explore),
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24.r),
+          borderRadius: BorderRadius.circular(12.r),
         ),
         clipBehavior: Clip.antiAlias,
         child: Container(
           width: 380.w,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(24.r),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(16.r),
+                borderRadius: BorderRadius.circular(12.r),
                 child: Image.network(
                   explore.imageUrl,
                   width: 364.w,
                   height: 184.h,
                   fit: BoxFit.cover,
+                  errorBuilder: (_, _, _) {
+                    return Image.asset(
+                      'assets/images/png/splash_logo.png',
+                      width: 364.w,
+                      height: 184.h,
+                      fit: BoxFit.cover,
+                    );
+                  },
                 ),
               ),
               Container(
@@ -45,7 +52,7 @@ class ExploreItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      explore.country,
+                      explore.category?.name ?? 'Unknown Category' ,
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: Fonts.semiBold,
@@ -61,14 +68,21 @@ class ExploreItem extends StatelessWidget {
                       child: Row(
                         children: [
                           CircleAvatar(
-                            backgroundImage: NetworkImage(explore.imageUrl),
                             radius: 10.r,
+                            child: Image.network(explore.user!.image??'',
+                              errorBuilder: (_, _, _) {
+                                return Image.asset(
+                                  'assets/images/png/splash_logo.png',
+                                  // width: 364.w,
+                                  // height: 184.h,
+                                  fit: BoxFit.cover,
+                                );
+                              },),
                           ),
                           SizedBox(width: 4.w),
                           Expanded(
                             child: Text(
-                              // explore.userId,
-                              explore.user?.name??'Unknown User',
+                              explore.user?.name ?? 'Unknown User',
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 fontWeight: Fonts.semiBold,
@@ -80,10 +94,7 @@ class ExploreItem extends StatelessWidget {
                           SizedBox(width: 12.w),
                           Row(
                             children: [
-                              Icon(
-                                Icons.access_time_rounded,
-                                size: 14.sp,
-                              ),
+                              Icon(Icons.access_time_rounded, size: 14.sp),
                               SizedBox(width: 4.w),
                               Text(
                                 _formatDate(explore.createdAt),

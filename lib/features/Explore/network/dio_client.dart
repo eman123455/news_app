@@ -10,7 +10,7 @@ class DioClient {
 
   final Dio dio = Dio(
     BaseOptions(
-      baseUrl: AppConstants.projectUrl,
+      baseUrl: '${AppConstants.projectUrl}/rest/v1',
       headers: {
         'apikey': AppConstants.anonKey,
         'Authorization': 'Bearer ${AppConstants.anonKey}',

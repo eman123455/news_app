@@ -39,12 +39,10 @@ class _ReadMoreTextState extends State<ReadMoreText> {
           textDirection: Directionality.of(context),
         )..layout(maxWidth: maxWidth);
 
-        // ✅ لو النص قصير
         if (!textPainter.didExceedMaxLines) {
           return Text(widget.text, style: textStyle);
         }
 
-        // ✅ لو expanded
         if (isExpanded) {
           return RichText(
             text: TextSpan(
@@ -64,7 +62,6 @@ class _ReadMoreTextState extends State<ReadMoreText> {
           );
         }
 
-        // ✨ النص + See more لازم يفضلوا في سطرين
         const linkText = " ... See more";
 
         int endIndex = widget.text.length;
