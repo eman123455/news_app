@@ -10,7 +10,7 @@ class ExploreRepositoryImpl implements ExploreRepository {
   final Dio _dio;
 
   @override
-  Future<List<ExploreModel>> getExplores() async {
+  Future<List<ExploreModel>> getAllExploresNews() async {
     try {
       // final response = await _dio.get(
       //   '/posts',
@@ -22,22 +22,56 @@ class ExploreRepositoryImpl implements ExploreRepository {
       final response = await _dio.get(
         '/posts',
         queryParameters: {
-          'select': '*,profile:profiles!user_id(*),likes(*),comments(*,profile:profiles!user_id(*))',
+          'select':
+              '*,profile:profiles!user_id(*),likes(*),comments(*,profile:profiles!user_id(*))',
           'order': 'created_at.desc',
         },
       );
 
       final List data = response.data as List;
-      print('----------');
-      // print(response);
-      print(response.data);
-      print('----------');
+      // print('----------');
+      // // print(response);
+      // print(response.data);
+      // print('----------');
       return ExploreModel.fromJsonList(data);
     } on DioException catch (e) {
       throw _mapDioError(e);
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future<List<ExploreModel>> getFollowingsExplores(
+    List<dynamic> followingsUsersList,
+  ) async {
+    final response = await _dio.get(
+      '/posts',
+      queryParameters: {
+        'select':
+            '*,profile:profiles!user_id(*),likes(*),comments(*,profile:profiles!user_id(*))',
+        'user_id':
+            'in.(${followingsUsersList.map((e) => e['following_id']).join(',')})',
+        'order': 'created_at.desc',
+      },
+    );
+    final List data = response.data as List;
+    return data.map((e) => ExploreModel.fromJson(e as Map<String, dynamic>)).toList();
+  }
+
+  Future<List<dynamic>> getFollowingsUsersList() async {
+    final userId = '062b90f8-49cd-4911-8d3a-265924aa0597';
+    print('getFollowings');
+    final response = await _dio.get(
+      '/follows',
+      queryParameters: {
+        // 'select': 'following:following_id(follower_id)',
+        'select': 'following_id',
+        'follower_id': 'eq.$userId',
+        'order': 'created_at.desc',
+      },
+    );
+    print(response.data);
+    return response.data;
   }
 
   Exception _mapDioError(DioException e) {
