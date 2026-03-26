@@ -107,21 +107,8 @@ class _SignUpState extends State<SignUp> {
                             return null;
                           },
                         ),
-                        Row(
-                          children: [
-                            Checkbox(
-                              value: true,
-                              onChanged: (val) {},
-                              activeColor: const Color(0xFF1A73E8),
-                            ),
-                            const Text(
-                              "Remember me",
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ],
-                        ),
 
-                        const SizedBox(height: 18),
+                        const SizedBox(height: 38),
                         state is SignUpLoading
                             ? CustomeButton(
                                 height: 55,
