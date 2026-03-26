@@ -24,7 +24,7 @@ class Recent extends StatelessWidget {
           );
         } else if (state is GetPostsFailed) {
           return Text(state.errMsg);
-        }else{
+        } else {
           return const SizedBox.shrink();
         }
       },

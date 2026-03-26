@@ -38,7 +38,7 @@ class PostModel extends Equatable {
     country: json['country'] as String?,
     createdAt: json['created_at'] == null
         ? null
-        : DateTime.parse(json['created_at'] as String).toLocal(),
+        : DateTime.parse(json['created_at'] as String),
     categories: json['categories'] == null
         ? null
         : Categories.fromJson(json['categories'] as Map<String, dynamic>),

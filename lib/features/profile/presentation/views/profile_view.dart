@@ -23,12 +23,8 @@ class ProfileView extends StatelessWidget {
       length: 2,
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (context) => ProfileCubit()..getProfile(),
-          ),
-          BlocProvider(
-            create: (context) => PostsCubit()..getUserPosts(),
-          ),
+          BlocProvider(create: (context) => ProfileCubit()..getProfile()),
+          BlocProvider(create: (context) => PostsCubit()..getUserPosts()),
         ],
         child: Scaffold(
           appBar: AppBar(
@@ -76,10 +72,7 @@ class ProfileView extends StatelessWidget {
                             count: '567',
                             label: 'Following',
                           ),
-                          const ProfileStatItem(
-                            count: '23',
-                            label: 'News',
-                          ),
+                          const ProfileStatItem(count: '23', label: 'News'),
                         ],
                       ),
                       SizedBox(height: 16.h),

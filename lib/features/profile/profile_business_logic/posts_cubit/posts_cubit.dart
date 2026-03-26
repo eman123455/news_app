@@ -30,7 +30,7 @@ class PostsCubit extends Cubit<PostsState> {
     }
   }
 
-  Future<void> deletePost(int postId,) async {
+  Future<void> deletePost(int postId) async {
     try {
       await repo.deletePost(postId, userId);
       await getNewestUserPosts();

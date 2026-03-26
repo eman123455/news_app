@@ -19,12 +19,12 @@ class NewsPart extends StatelessWidget {
             itemCount: state.posts.length,
             itemBuilder: (context, index) {
               final post = state.posts[index];
-              return CustomNewsCard(postModel: post, user: user,);
+              return CustomNewsCard(postModel: post, user: user);
             },
           );
         } else if (state is GetPostsFailed) {
           return Text(state.errMsg);
-        }else{
+        } else {
           return const SizedBox.shrink();
         }
       },

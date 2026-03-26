@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,15 +13,16 @@ import 'package:news_app/features/news/presentation/widgets/category_chips.dart'
 import 'package:news_app/features/news/presentation/widgets/cover_photo_widget.dart';
 import 'package:news_app/features/news/presentation/widgets/news_content.dart';
 import 'package:news_app/features/news/presentation/widgets/publish_button.dart';
+import 'package:news_app/features/profile/data/models/post_model/post_model.dart';
 
-class CreateNewsView extends StatefulWidget {
-  const CreateNewsView({super.key});
-
+class EditNewsView extends StatefulWidget {
+  const EditNewsView({super.key, required this.postModel});
+  final PostModel postModel;
   @override
-  State<CreateNewsView> createState() => _CreateNewsViewState();
+  State<EditNewsView> createState() => _EditNewsViewState();
 }
 
-class _CreateNewsViewState extends State<CreateNewsView> {
+class _EditNewsViewState extends State<EditNewsView> {
   late TextEditingController _titleController;
   late TextEditingController _countryController;
   late TextEditingController _contentController;
@@ -30,9 +32,10 @@ class _CreateNewsViewState extends State<CreateNewsView> {
   String? selectedCategoryId;
   @override
   void initState() {
-    _titleController = TextEditingController();
-    _countryController = TextEditingController();
-    _contentController = TextEditingController();
+    _titleController = TextEditingController(text: widget.postModel.title);
+    _countryController = TextEditingController(text: widget.postModel.country);
+    _contentController = TextEditingController(text: widget.postModel.content);
+    selectedCategoryId = widget.postModel.categoryId.toString();
     super.initState();
   }
 
@@ -48,7 +51,7 @@ class _CreateNewsViewState extends State<CreateNewsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create News', style: AppTextStyle.text16Regular),
+        title: Text('Edit News', style: AppTextStyle.text16Regular),
         centerTitle: true,
         iconTheme: IconThemeData(color: AppColors.grey4E),
       ),
@@ -90,7 +93,7 @@ class _CreateNewsViewState extends State<CreateNewsView> {
                         alignment: Alignment.center,
                         children: [
                           CoverPhotoWidget(
-                            imageUrl: imageUrl,
+                            imageUrl: imageUrl ?? widget.postModel.imageUrl,
                             selectedImage: selectedImage,
                           ),
                           Positioned(
@@ -145,6 +148,7 @@ class _CreateNewsViewState extends State<CreateNewsView> {
                     Label(title: 'Category'),
                     SizedBox(height: 8.h),
                     CategoryChips(
+                      selectedCategoryId: selectedCategoryId,
                       onCategorySelected: (id) {
                         setState(() {
                           selectedCategoryId = id;
@@ -160,11 +164,12 @@ class _CreateNewsViewState extends State<CreateNewsView> {
                       alignment: Alignment.bottomCenter,
                       child: PublishButton(
                         onPressed: () {
-                          BlocProvider.of<NewsCubit>(context).addPost(
+                          BlocProvider.of<NewsCubit>(context).updatePost(
+                            postId: widget.postModel.id!,
                             title: _titleController.text,
                             content: _contentController.text,
-                            imageUrl: imageUrl ?? '',
-                            categoryId: int.tryParse(selectedCategoryId!) ?? 0,
+                            imageUrl: imageUrl ?? widget.postModel.imageUrl!,
+                            categoryId: int.tryParse(selectedCategoryId!) ?? widget.postModel.id!,
                             country: _countryController.text,
                           );
                         },

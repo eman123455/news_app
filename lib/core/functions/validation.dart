@@ -10,17 +10,16 @@ class Validation {
   }
 
   static String? emailValidator(String? value) {
-  String emailPattern =
-      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
-  final emailRegex = RegExp(emailPattern);
-  if (value == null || value.isEmpty) {
-    return 'Please enter your email address';
+    String emailPattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+    final emailRegex = RegExp(emailPattern);
+    if (value == null || value.isEmpty) {
+      return 'Please enter your email address';
+    }
+    if (!emailRegex.hasMatch(value)) {
+      return 'Invalid email format';
+    }
+    return null;
   }
-  if (!emailRegex.hasMatch(value)) {
-    return 'Invalid email format';
-  }
-  return null;
-}
 
   static String? phoneValidator(String? value) {
     if (value == null || value.trim().isEmpty) {
@@ -40,6 +39,7 @@ class Validation {
     }
     return null;
   }
+
   static String? countryValidator(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Please enter your country';

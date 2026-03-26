@@ -20,9 +20,9 @@ final class GetProfileFailed extends ProfileState {
 final class GetProfileLoading extends ProfileState {}
 
 final class ProfileUpdateSuccess extends ProfileState {}
+
 final class ProfileUpdateFailed extends ProfileState {
   final String errMsg;
 
   ProfileUpdateFailed({required this.errMsg});
-
 }

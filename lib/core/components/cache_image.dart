@@ -10,7 +10,8 @@ class CacheImage extends StatelessWidget {
     this.fit,
     this.userFristLetter = 'U',
     this.height,
-    this.width, this.fontSize,
+    this.width,
+    this.fontSize,
   });
   final String imageUrl;
   final BoxFit? fit;

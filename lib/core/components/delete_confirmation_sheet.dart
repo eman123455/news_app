@@ -10,20 +10,20 @@ class DeleteConfirmationSheet extends StatelessWidget {
 
   const DeleteConfirmationSheet({
     super.key,
-  this.title = 'Delete Confirmation',
-  required this.message,
-  this.confirmText = 'Delete',
-  this.cancelText = 'Cancel',
-  required this.onConfirm,
+    this.title = 'Delete Confirmation',
+    required this.message,
+    this.confirmText = 'Delete',
+    this.cancelText = 'Cancel',
+    required this.onConfirm,
   });
 
   static Future<void> show(
     BuildContext context, {
     required String message,
     required VoidCallback onConfirm,
-     String title = 'Delete Confirmation',
-     String confirmText = 'Delete',
-     String cancelText = 'Cancel',
+    String title = 'Delete Confirmation',
+    String confirmText = 'Delete',
+    String cancelText = 'Cancel',
   }) {
     return showModalBottomSheet<void>(
       context: context,

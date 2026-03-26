@@ -7,9 +7,12 @@ import 'package:news_app/features/Auth/login/presentation/views/login.dart';
 import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dart';
 import 'package:news_app/features/HomePage/presentation/home_page.dart';
 import 'package:news_app/features/account_setup/presentation/views/acount_setup.dart';
+import 'package:news_app/features/news/news_business_logic/news_cubit/news_cubit.dart';
 import 'package:news_app/features/news/presentation/views/create_news_view.dart';
+import 'package:news_app/features/news/presentation/views/edit_news_view.dart';
 import 'package:news_app/features/news/presentation/views/news_view.dart';
 import 'package:news_app/features/onboarding/presentation/views/onboarding_view.dart';
+import 'package:news_app/features/profile/data/models/post_model/post_model.dart';
 import 'package:news_app/features/profile/data/models/profile_model.dart';
 import 'package:news_app/features/profile/presentation/views/edit_profile_view.dart';
 import 'package:news_app/features/profile/presentation/views/profile_view.dart';
@@ -34,6 +37,7 @@ class AppRoutes {
   static const String kEditProfileView = '/EditProfileView';
   static const String kSetupProfileView = '/SetupProfileView';
   static const String kCreateNewsView = '/CreateNewsView';
+  static const String kEditNewsView = '/EditNewsView';
 
   static GoRouter routes = GoRouter(
     routes: [
@@ -59,7 +63,20 @@ class AppRoutes {
       GoRoute(path: kNewsView, builder: (context, state) => NewsView()),
       GoRoute(
         path: kCreateNewsView,
-        builder: (context, state) => CreateNewsView(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => NewsCubit(),
+          child: CreateNewsView(),
+        ),
+      ),
+      GoRoute(
+        path: kEditNewsView,
+        builder: (context, state) {
+          final post = state.extra as PostModel;
+          return BlocProvider(
+            create: (context) => NewsCubit(),
+            child: EditNewsView(postModel: post),
+          );
+        },
       ),
       GoRoute(path: kProfileView, builder: (context, state) => ProfileView()),
       GoRoute(

@@ -16,16 +16,17 @@ Future<File?> pickImageFromDevice() async {
     return null;
   }
 }
+
 Future<String?> uploadImageToStorage(File image) async {
   try {
     final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
     final path = 'profiles/$fileName';
-    const bucketName = 'images'; 
+    const bucketName = 'images';
     print('Uploading to bucket: $bucketName, path: $path');
     await AppConstants.supabase.storage
         .from(bucketName)
         .upload(
-          path, 
+          path,
           image,
           fileOptions: FileOptions(
             upsert: true, // replace if same path

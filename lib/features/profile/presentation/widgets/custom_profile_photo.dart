@@ -7,7 +7,8 @@ class CustomProfilePhoto extends StatelessWidget {
     required this.imageUrl,
     this.userName,
     this.width,
-    this.height, this.fontsize,
+    this.height,
+    this.fontsize,
   });
   final String imageUrl;
   final String? userName;

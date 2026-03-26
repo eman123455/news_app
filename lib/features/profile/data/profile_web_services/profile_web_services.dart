@@ -54,7 +54,8 @@ class ProfileWebServices {
       throw Exception('Unexpected error: $e');
     }
   }
-  Future<dynamic> updateProfile( {
+
+  Future<dynamic> updateProfile({
     required String userId,
     required String? username,
     required String? fullName,
@@ -65,24 +66,24 @@ class ProfileWebServices {
     required String? imageUrl,
     required String? country,
     required String? role,
-    }) async {
+  }) async {
     try {
       final Map<String, dynamic> requestBody = {
-       'username': username,
-       'full_name': fullName,
-       'email': email,
-       'phone': phone,
-       'bio': bio,
-       'website': website,
-       'image_url': imageUrl,
-       'country': country,
-      'role': role,
-    };
+        'username': username,
+        'full_name': fullName,
+        'email': email,
+        'phone': phone,
+        'bio': bio,
+        'website': website,
+        'image_url': imageUrl,
+        'country': country,
+        'role': role,
+      };
       final response = await dio.patch(
-        '/profiles?id=eq.$userId'
-         ,data:requestBody,
-          options: Options(headers: {'Prefer': 'return=representation'}),
-         );
+        '/profiles?id=eq.$userId',
+        data: requestBody,
+        options: Options(headers: {'Prefer': 'return=representation'}),
+      );
       final data = response.data;
       final user = ProfileModel.fromJson(data[0]);
       return user;
@@ -120,7 +121,7 @@ class ProfileWebServices {
   Future<dynamic> getUserPosts(String userId) async {
     try {
       final response = await dio.get(
-        '/posts?user_id=eq.$userId&select=*,categories(name)',
+        '/posts?user_id=eq.$userId&select=*,categories(*)',
       );
       final data = response.data;
       List<PostModel> posts = [];
@@ -206,15 +207,15 @@ class ProfileWebServices {
       final response = await dio.delete(
         '/posts?id=eq.$postId&user_id=eq.$userId',
       );
-    if (response.statusCode == 204) {
-      return;
-    } 
-    else if (response.statusCode == 404) {
-      throw Exception('Post not found or does not belong to this user');
-    } 
-    else {
-      throw Exception('Failed to delete post. Status: ${response.statusCode}');
-    }
+      if (response.statusCode == 204) {
+        return;
+      } else if (response.statusCode == 404) {
+        throw Exception('Post not found or does not belong to this user');
+      } else {
+        throw Exception(
+          'Failed to delete post. Status: ${response.statusCode}',
+        );
+      }
     } on DioException catch (e) {
       if (e.response != null) {
         final statusCode = e.response?.statusCode;
