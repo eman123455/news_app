@@ -91,7 +91,7 @@ class _ForgetPassViewState extends State<ForgetPassView> {
         ),
       ),
       listener: (context, state) => {
-        if (state is ForgetPasswordSuccess) {context.go(AppRoutes.kOtpView)},
+        if (state is ForgetPasswordSuccess) {context.go(AppRoutes.kConfirmePassView)},
 
         if (state is ForgetPasswordFailure)
           {

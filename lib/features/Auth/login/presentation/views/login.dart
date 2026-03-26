@@ -5,6 +5,7 @@ import 'package:news_app/core/components/custome_button.dart';
 import 'package:news_app/core/components/custome_text_field.dart';
 import 'package:news_app/core/resources/app_colors.dart';
 import 'package:news_app/core/resources/app_routes.dart';
+import 'package:news_app/features/Auth/forget_password/data/forget_pass_web_services/forget_pass_web_services.dart';
 import 'package:news_app/features/Auth/login/login_business_logic/login_cubit/login_cubit.dart';
 import 'package:news_app/features/Auth/login/presentation/widgets/footer.dart';
 import 'package:news_app/features/Auth/login/presentation/widgets/hero-section.dart';
@@ -28,6 +29,8 @@ class _LoginState extends State<Login> {
     _passwordController.dispose();
     super.dispose();
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -158,8 +161,9 @@ class _LoginState extends State<Login> {
         );
       },
       listener: (context, state) {
+        
         if (state is LoginSuccess) {
-          context.go(AppRoutes.kHomePage);
+          context.go(AppRoutes.kNavBar);
         }
 
         if (state is LoginError) {

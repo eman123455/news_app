@@ -65,17 +65,16 @@ class AppRoutes {
       GoRoute(
         path: kExplore,
         builder: (context, state) => BlocProvider(
-          create: (_) => ExploreCubit(
-            ExploreRepositoryImpl(client: DioClient()),
-          )..getExplores(),
+          create: (_) =>
+              ExploreCubit(ExploreRepositoryImpl(client: DioClient()))
+                ..getExplores(),
           child: const Explore(),
         ),
       ),
       GoRoute(
         path: kNewsDetailsView,
-        builder: (context, state) => NewsDetailsView(
-          explore: state.extra as ExploreModel,
-        ),
+        builder: (context, state) =>
+            NewsDetailsView(explore: state.extra as ExploreModel),
       ),
       GoRoute(
         path: kLogin,
@@ -139,12 +138,25 @@ class AppRoutes {
       ),
       GoRoute(path: kProfileView, builder: (context, state) => ProfileView()),
       GoRoute(path: kSettingsView, builder: (context, state) => SettingsView()),
+      GoRoute(
+        path: kConfirmePassView,
+        builder: (context, state) => BlocProvider(
+          create: (_) => ForgetPasswordCubit(),
+          child: ConfimeResetPass(),
+        ),
+      ),
     ],
     redirect: (context, state) async {
       final seen = await LocalStorage.hasSeenOnboarding();
       final user = await LocalStorage.getUserId();
 
       final currentLocation = state.matchedLocation;
+
+      // Skip redirect if on reset-password or confirm-reset-password
+      if (currentLocation == AppRoutes.kResetPassView ||
+          currentLocation == AppRoutes.kConfirmePassView) {
+        return null;
+      }
 
       // onboarding
       if (!seen) {
@@ -156,7 +168,7 @@ class AppRoutes {
         if (currentLocation == AppRoutes.kLogin ||
             currentLocation == AppRoutes.kOnboardingView ||
             currentLocation == AppRoutes.kSplashView) {
-          return AppRoutes.kHomePage;
+          return AppRoutes.kNavBar;
         }
       }
 
