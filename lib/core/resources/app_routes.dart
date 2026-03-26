@@ -4,6 +4,7 @@ import 'package:news_app/core/storage/local_storage.dart';
 import 'package:news_app/features/Auth/SignUp/data/sign_up_web_services/sign_up_web_services.dart';
 import 'package:news_app/features/Auth/SignUp/presentation/views/sign_up.dart';
 import 'package:news_app/features/Auth/SignUp/sign_up_business_logic/sign_up_cubit/sign_up_cubit.dart';
+import 'package:news_app/features/Auth/forget_password/forget_pass_business_logic/cubit/forget_password_cubit.dart';
 import 'package:news_app/features/Auth/forget_password/presentation/views/confime_reset_pass.dart';
 import 'package:news_app/features/Auth/forget_password/presentation/views/forget_pass_view.dart';
 import 'package:news_app/features/Auth/forget_password/presentation/views/otp_view.dart';
@@ -51,8 +52,8 @@ class AppRoutes {
         builder: (context, state) => OnboardingView(),
       ),
       GoRoute(
-        path: kForgetPassView,
-        builder: (context, state) => ForgetPassView(),
+        path: kResetPassView,
+        builder: (context, state) => ResetPasswordView(),
       ),
       GoRoute(
         path: kLogin,
@@ -79,8 +80,11 @@ class AppRoutes {
       GoRoute(path: kSettingsView, builder: (context, state) => SettingsView()),
       GoRoute(path: kOtpView, builder: (context, state) => OtpScreen()),
       GoRoute(
-        path: kResetPassView,
-        builder: (context, state) => ResetPasswordView(),
+        path: kForgetPassView,
+        builder: (context, state) => BlocProvider(
+          create: (_) => ForgetPasswordCubit(),
+          child: ForgetPassView(),
+        ),
       ),
       GoRoute(
         path: kConfirmePassView,
