@@ -27,7 +27,10 @@ import 'package:news_app/features/Trending/presentation/views/trending_view.dart
 import 'package:news_app/features/account_setup/account_setup_business_logic/cubit/account_setup_cubit.dart';
 import 'package:news_app/features/account_setup/data/repo/account_setup_repo_implementation.dart';
 import 'package:news_app/features/account_setup/presentation/views/acount_setup.dart';
+import 'package:news_app/features/news/bloc/post_details_cubit.dart';
+import 'package:news_app/features/news/news_details_args.dart';
 import 'package:news_app/features/news/presentation/views/news_details_view.dart';
+import 'package:news_app/features/news/repo/post_details_repository.dart';
 import 'package:news_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:news_app/features/profile/presentation/profile_view.dart';
 import 'package:news_app/features/settings/presentation/views/settings_view.dart';
@@ -72,9 +75,17 @@ class AppRoutes {
       ),
       GoRoute(
         path: kNewsDetailsView,
-        builder: (context, state) => NewsDetailsView(
-          explore: state.extra as ExploreModel,
-        ),
+        builder: (context, state) {
+          final args = state.extra as NewsDetailsArgs;
+          return BlocProvider(
+            create: (_) => PostDetailsCubit(PostDetailsRepository())
+              ..init(
+                post: args.explore,
+                followingsUsersList: args.followingsUsersList,
+              ),
+            child: NewsDetailsView(explore: args.explore),
+          );
+        },
       ),
       GoRoute(
         path: kLogin,

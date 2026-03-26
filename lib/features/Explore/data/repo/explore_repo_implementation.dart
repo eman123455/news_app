@@ -24,7 +24,7 @@ class ExploreRepositoryImpl implements ExploreRepository {
         '/posts',
         queryParameters: {
           'select':
-          '*,profile:profiles!user_id(*),likes(*),comments(*,profile:profiles!user_id(*)),category:categories!category_id(*)',
+          '*,profile:profiles!user_id(*),likes(*),comments(*,profile:profiles!user_id(*),replies:comments!parent_id(*,profile:profiles!user_id(*))),category:categories!category_id(*)',
           'order': 'created_at.desc',
         },
       );
@@ -50,7 +50,7 @@ class ExploreRepositoryImpl implements ExploreRepository {
       '/posts',
       queryParameters: {
         'select':
-            '*,profile:profiles!user_id(*),likes(*),comments(*,profile:profiles!user_id(*)),category:categories!category_id(*)',
+        '*,profile:profiles!user_id(*),likes(*),comments(*,profile:profiles!user_id(*),replies:comments!parent_id(*,profile:profiles!user_id(*))),category:categories!category_id(*)',
         'user_id':
             'in.(${followingsUsersList.map((e) => e['following_id']).join(',')})',
         'order': 'created_at.desc',
