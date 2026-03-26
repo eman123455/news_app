@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:news_app/core/storage/local_storage.dart';
 import 'package:news_app/features/Auth/SignUp/data/sign_up_web_services/sign_up_web_services.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -114,6 +115,21 @@ class AppRoutes {
       GoRoute(path: kProfileView, builder: (context, state) => ProfileView()),
       GoRoute(path: kSettingsView, builder: (context, state) => SettingsView()),
     ],
-    redirect: (context, state) async {},
+    redirect: (context, state) async {
+      final seen = await LocalStorage.hasSeenOnboarding();
+      final currentLocation = state.matchedLocation;
+
+      if (!seen && currentLocation == AppRoutes.kSplashView) {
+        return AppRoutes.kOnboardingView;
+      }
+
+      if (seen &&
+          (currentLocation == AppRoutes.kSplashView ||
+              currentLocation == AppRoutes.kOnboardingView)) {
+        return AppRoutes.kLogin;
+      }
+
+      return null;
+    },
   );
 }
