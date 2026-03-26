@@ -2,10 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:news_app/core/storage/local_storage.dart';
 import 'package:news_app/features/Auth/SignUp/data/sign_up_web_services/sign_up_web_services.dart';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:news_app/core/components/nav_bar.dart';
 import 'package:news_app/features/Auth/SignUp/presentation/views/sign_up.dart';
 import 'package:news_app/features/Auth/SignUp/sign_up_business_logic/sign_up_cubit/sign_up_cubit.dart';
 import 'package:news_app/features/Auth/forget_password/presentation/views/confime_reset_pass.dart';
@@ -117,15 +113,27 @@ class AppRoutes {
     ],
     redirect: (context, state) async {
       final seen = await LocalStorage.hasSeenOnboarding();
+      final user = await LocalStorage.getUserId();
+
       final currentLocation = state.matchedLocation;
 
-      if (!seen && currentLocation == AppRoutes.kSplashView) {
+      // onboarding
+      if (!seen) {
         return AppRoutes.kOnboardingView;
       }
 
-      if (seen &&
-          (currentLocation == AppRoutes.kSplashView ||
-              currentLocation == AppRoutes.kOnboardingView)) {
+      // user logged in →home
+      if (user != null && user.isNotEmpty) {
+        if (currentLocation == AppRoutes.kLogin ||
+            currentLocation == AppRoutes.kOnboardingView ||
+            currentLocation == AppRoutes.kSplashView) {
+          return AppRoutes.kHomePage;
+        }
+      }
+
+      // not logged in →login
+      if (currentLocation == AppRoutes.kSplashView ||
+          currentLocation == AppRoutes.kOnboardingView) {
         return AppRoutes.kLogin;
       }
 

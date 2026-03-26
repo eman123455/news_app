@@ -108,21 +108,8 @@ class _LoginState extends State<Login> {
                       ),
 
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Row(
-                            children: [
-                              Checkbox(
-                                value: true,
-                                onChanged: (val) {},
-                                activeColor: const Color(0xFF1A73E8),
-                              ),
-                              const Text(
-                                "Remember me",
-                                style: TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          ),
                           TextButton(
                             onPressed: () {
                               context.go(AppRoutes.kForgetPassView);
@@ -171,18 +158,20 @@ class _LoginState extends State<Login> {
         );
       },
       listener: (context, state) {
-        if (state is LoginLoading) {
-          Center(child: CircularProgressIndicator());
-        }
-
         if (state is LoginSuccess) {
           context.go(AppRoutes.kHomePage);
         }
 
         if (state is LoginError) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.message)));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Email or Password is Incorrect',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.red,
+            ),
+          );
         }
       },
     );
