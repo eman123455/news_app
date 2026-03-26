@@ -36,7 +36,5 @@ class NewsApp extends StatelessWidget {
         routerConfig: AppRoutes.routes,
       ),
     );
-
-
   }
 }

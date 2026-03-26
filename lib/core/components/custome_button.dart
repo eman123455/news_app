@@ -4,6 +4,7 @@ class CustomeButton extends StatelessWidget {
   final double height;
   final Color color;
   final String buttonName;
+    final bool? disable;
   final void Function() onPressend;
 
   const CustomeButton({
@@ -12,6 +13,7 @@ class CustomeButton extends StatelessWidget {
     required this.color,
     required this.onPressend,
     required this.buttonName,
+    this.disable,
   });
 
   @override

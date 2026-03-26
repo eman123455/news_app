@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:news_app/core/storage/local_storage.dart';
 import 'package:news_app/core/components/nav_bar.dart';
 import 'package:news_app/features/Auth/SignUp/data/sign_up_web_services/sign_up_web_services.dart';
 import 'package:news_app/features/Auth/SignUp/presentation/views/sign_up.dart';
@@ -8,6 +9,8 @@ import 'package:news_app/features/Auth/forget_password/presentation/views/confim
 import 'package:news_app/features/Auth/forget_password/presentation/views/forget_pass_view.dart';
 import 'package:news_app/features/Auth/forget_password/presentation/views/otp_view.dart';
 import 'package:news_app/features/Auth/forget_password/presentation/views/reset_password_view.dart';
+import 'package:news_app/features/Auth/login/data/login_web_services/login_web_services.dart';
+import 'package:news_app/features/Auth/login/login_business_logic/login_cubit/login_cubit.dart';
 import 'package:news_app/features/Auth/login/presentation/views/login.dart';
 import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dart';
 import 'package:news_app/features/Explore/data/model/explore_model.dart';
@@ -28,6 +31,11 @@ import 'package:news_app/features/news/presentation/views/news_details_view.dart
 import 'package:news_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:news_app/features/profile/presentation/profile_view.dart';
 import 'package:news_app/features/settings/presentation/views/settings_view.dart';
+
+import '../../features/HomePage/Data/RepositryImp/repo_imp.dart';
+import '../../features/HomePage/Domain/UsesCase/use_case_news.dart';
+import '../../features/HomePage/presentation/logic/news_bloc.dart';
+import '../../features/HomePage/presentation/logic/news_event.dart';
 
 class AppRoutes {
   static const String kSplashView = '/';
@@ -50,6 +58,7 @@ class AppRoutes {
 
   static GoRouter routes = GoRouter(
     routes: [
+      // GoRoute(path: kSplashView, builder: (context, state) => NavBar()),
       GoRoute(path: kSplashView, builder: (context, state) => OnboardingView()),
       GoRoute(path: kNavBar, builder: (context, state) => NavBar()),
       GoRoute(
@@ -67,15 +76,33 @@ class AppRoutes {
           explore: state.extra as ExploreModel,
         ),
       ),
-      GoRoute(path: kOnboardingView, builder: (context, state) => OnboardingView()),
-      GoRoute(path: kForgetPassView, builder: (context, state) => ForgetPassView()),
-      GoRoute(path: kLogin, builder: (context, state) => Login()),
+      GoRoute(
+        path: kLogin,
+        builder: (context, state) {
+          return BlocProvider(
+            create: (_) => LoginCubit(LoginWebServices()),
+            child: Login(),
+          );
+        },
+      ),
       GoRoute(
         path: kSignUp,
-        builder: (context, state) => BlocProvider(
-          create: (_) => SignUpCubit(SignUpWebServices()),
-          child: SignUp(),
-        ),
+        builder: (context, state) {
+          return BlocProvider(
+            create: (_) => SignUpCubit(SignUpWebServices()),
+            child: SignUp(),
+          );
+        },
+      ),
+      GoRoute(path: kAcountSetup, builder: (context, state) => AcountSetup()),
+      GoRoute(path: kBookMarkView, builder: (context, state) => BookMarkView()),
+      GoRoute(path: kHomePage, builder: (context, state) => HomePage()),
+      GoRoute(path: kProfileView, builder: (context, state) => ProfileView()),
+      GoRoute(path: kSettingsView, builder: (context, state) => SettingsView()),
+      GoRoute(path: kOtpView, builder: (context, state) => OtpScreen()),
+      GoRoute(
+        path: kResetPassView,
+        builder: (context, state) => ResetPasswordView(),
       ),
       GoRoute(
         path: kAcountSetup,
@@ -84,22 +111,58 @@ class AppRoutes {
           child: AcountSetup(),
         ),
       ),
+
+      GoRoute(path: kExplore, builder: (context, state) => Explore()),
+      GoRoute(
+        path: kOnboardingView,
+        builder: (context, state) => OnboardingView(),
+      ),
+      GoRoute(
+        path: kForgetPassView,
+        builder: (context, state) => ForgetPassView(),
+      ),
+      GoRoute(path: kLogin, builder: (context, state) => Login()),
+      GoRoute(path: kSignUp, builder: (context, state) => SignUp()),
+      GoRoute(path: kAcountSetup, builder: (context, state) => AcountSetup()),
       GoRoute(path: kBookMarkView, builder: (context, state) => BookMarkView()),
       GoRoute(
         path: kHomePage,
         builder: (context, state) => BlocProvider(
           create: (context) =>
-          NewsBloc(UseCaseNews(RepoImpl()))..add(FetchNews(category: null)),
+              NewsBloc(UseCaseNews(RepoImpl()))..add(FetchNews(category: null)),
           child: const HomePage(),
         ),
       ),
-      GoRoute(path: kTrendingView, builder: (context, state) => TrendingView()),
       GoRoute(path: kProfileView, builder: (context, state) => ProfileView()),
       GoRoute(path: kSettingsView, builder: (context, state) => SettingsView()),
-      GoRoute(path: kOtpView, builder: (context, state) => OtpScreen()),
-      GoRoute(path: kResetPassView, builder: (context, state) => ResetPasswordView()),
-      GoRoute(path: kConfirmePassView, builder: (context, state) => ConfimeResetPass()),
     ],
-    redirect: (context, state) async => null,
+    redirect: (context, state) async {
+      final seen = await LocalStorage.hasSeenOnboarding();
+      final user = await LocalStorage.getUserId();
+
+      final currentLocation = state.matchedLocation;
+
+      // onboarding
+      if (!seen) {
+        return AppRoutes.kOnboardingView;
+      }
+
+      // user logged in →home
+      if (user != null && user.isNotEmpty) {
+        if (currentLocation == AppRoutes.kLogin ||
+            currentLocation == AppRoutes.kOnboardingView ||
+            currentLocation == AppRoutes.kSplashView) {
+          return AppRoutes.kHomePage;
+        }
+      }
+
+      // not logged in →login
+      if (currentLocation == AppRoutes.kSplashView ||
+          currentLocation == AppRoutes.kOnboardingView) {
+        return AppRoutes.kLogin;
+      }
+
+      return null;
+    },
   );
 }
