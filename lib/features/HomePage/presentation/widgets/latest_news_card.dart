@@ -14,7 +14,7 @@ class LatestNewsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        context.push(AppRoutes.kNewsDetailsView);
+        //context.push(AppRoutes.kNewsDetailsView);
       },
       child: Padding(
         padding: EdgeInsets.only(bottom: 16.h),
