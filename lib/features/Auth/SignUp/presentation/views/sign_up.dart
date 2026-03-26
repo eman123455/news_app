@@ -147,13 +147,15 @@ class _SignUpState extends State<SignUp> {
       },
       listener: (context, state) {
         if (state is SignUpSuccess) {
-          context.go(AppRoutes.kAcountSetup);
+          context.go(AppRoutes.kLogin);
         }
 
         if (state is SignUpError) {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(state.message)));
+
+          print('${state.message} 🤦‍♂️');
         }
       },
     );

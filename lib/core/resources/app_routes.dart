@@ -152,7 +152,7 @@ class AppRoutes {
         if (currentLocation == AppRoutes.kLogin ||
             currentLocation == AppRoutes.kOnboardingView ||
             currentLocation == AppRoutes.kSplashView) {
-          return AppRoutes.kHomePage;
+          return AppRoutes.kNavBar;
         }
       }
 

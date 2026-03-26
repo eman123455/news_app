@@ -159,7 +159,7 @@ class _LoginState extends State<Login> {
       },
       listener: (context, state) {
         if (state is LoginSuccess) {
-          context.go(AppRoutes.kHomePage);
+          context.go(AppRoutes.kNavBar);
         }
 
         if (state is LoginError) {
