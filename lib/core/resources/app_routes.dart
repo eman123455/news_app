@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:news_app/core/storage/local_storage.dart';
+import 'package:news_app/core/components/nav_bar.dart';
 import 'package:news_app/features/Auth/SignUp/data/sign_up_web_services/sign_up_web_services.dart';
 import 'package:news_app/features/Auth/SignUp/presentation/views/sign_up.dart';
 import 'package:news_app/features/Auth/SignUp/sign_up_business_logic/sign_up_cubit/sign_up_cubit.dart';
@@ -13,12 +14,24 @@ import 'package:news_app/features/Auth/login/data/login_web_services/login_web_s
 import 'package:news_app/features/Auth/login/login_business_logic/login_cubit/login_cubit.dart';
 import 'package:news_app/features/Auth/login/presentation/views/login.dart';
 import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dart';
+import 'package:news_app/features/Explore/data/model/explore_model.dart';
+import 'package:news_app/features/Explore/data/repo/explore_repo_implementation.dart';
+import 'package:news_app/features/Explore/network/dio_client.dart';
+import 'package:news_app/features/Explore/presentation/bloc/explore_cubit.dart';
+import 'package:news_app/features/Explore/presentation/view/explore_view.dart';
+import 'package:news_app/features/HomePage/Data/RepositryImp/repo_imp.dart';
+import 'package:news_app/features/HomePage/Domain/UsesCase/use_case_news.dart';
 import 'package:news_app/features/HomePage/presentation/home_page.dart';
+import 'package:news_app/features/HomePage/presentation/logic/news_bloc.dart';
+import 'package:news_app/features/HomePage/presentation/logic/news_event.dart';
+import 'package:news_app/features/Trending/presentation/views/trending_view.dart';
+import 'package:news_app/features/account_setup/account_setup_business_logic/cubit/account_setup_cubit.dart';
+import 'package:news_app/features/account_setup/data/repo/account_setup_repo_implementation.dart';
 import 'package:news_app/features/account_setup/presentation/views/acount_setup.dart';
+import 'package:news_app/features/news/presentation/views/news_details_view.dart';
 import 'package:news_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:news_app/features/profile/presentation/profile_view.dart';
 import 'package:news_app/features/settings/presentation/views/settings_view.dart';
-import '../../features/Explore/presentation/view/explore_view.dart';
 
 import '../../features/HomePage/Data/RepositryImp/repo_imp.dart';
 import '../../features/HomePage/Domain/UsesCase/use_case_news.dart';
@@ -27,6 +40,7 @@ import '../../features/HomePage/presentation/logic/news_event.dart';
 
 class AppRoutes {
   static const String kSplashView = '/';
+  static const String kNavBar = '/NaveBar';
   static const String kExplore = '/Explore';
   static const String kOnboardingView = '/OnboardingView';
   static const String kForgetPassView = '/ForgetPassView';
@@ -35,25 +49,33 @@ class AppRoutes {
   static const String kAcountSetup = '/AcountSetup';
   static const String kBookMarkView = '/BookMarkView';
   static const String kHomePage = '/HomePage';
-  static const String kNewsView = '/NewsView';
   static const String kProfileView = '/ProfileView';
   static const String kSettingsView = '/SettingsView';
   static const String kOtpView = '/OtpView';
   static const String kResetPassView = '/ResetPassView';
+  static const String kTrendingView = '/TrendingView';
+  static const String kNewsDetailsView = '/newsDetailsView';
   static const String kConfirmePassView = '/ConfirmePassView';
 
   static GoRouter routes = GoRouter(
     routes: [
       // GoRoute(path: kSplashView, builder: (context, state) => NavBar()),
       GoRoute(path: kSplashView, builder: (context, state) => OnboardingView()),
-      GoRoute(path: kExplore, builder: (context, state) => Explore()),
+      GoRoute(path: kNavBar, builder: (context, state) => NavBar()),
       GoRoute(
-        path: kOnboardingView,
-        builder: (context, state) => OnboardingView(),
+        path: kExplore,
+        builder: (context, state) => BlocProvider(
+          create: (_) => ExploreCubit(
+            ExploreRepositoryImpl(client: DioClient()),
+          )..getExplores(),
+          child: const Explore(),
+        ),
       ),
       GoRoute(
-        path: kResetPassView,
-        builder: (context, state) => ResetPasswordView(),
+        path: kNewsDetailsView,
+        builder: (context, state) => NewsDetailsView(
+          explore: state.extra as ExploreModel,
+        ),
       ),
       GoRoute(
         path: kLogin,
@@ -87,8 +109,11 @@ class AppRoutes {
         ),
       ),
       GoRoute(
-        path: kConfirmePassView,
-        builder: (context, state) => ConfimeResetPass(),
+        path: kAcountSetup,
+        builder: (context, state) => BlocProvider(
+          create: (_) => AccountSetupCubit(AccountSetupRepoImplementation()),
+          child: AcountSetup(),
+        ),
       ),
 
       GoRoute(path: kExplore, builder: (context, state) => Explore()),
