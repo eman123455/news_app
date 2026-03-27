@@ -6,7 +6,6 @@ import 'package:news_app/features/Explore/data/repo/explore_repo_implementation.
 import 'package:news_app/features/Explore/network/dio_client.dart';
 import 'package:news_app/features/Explore/presentation/bloc/explore_cubit.dart';
 import 'package:news_app/features/Explore/presentation/view/explore_view.dart';
-import 'package:news_app/features/profile/presentation/profile_view.dart';
 
 import '../../features/HomePage/Data/RepositryImp/repo_imp.dart';
 import '../../features/HomePage/Domain/UsesCase/use_case_news.dart';
@@ -22,7 +21,6 @@ import '../../features/HomePage/presentation/logic/news_event.dart';
 }
 
 class _NavBarState extends State<NavBar> {
-
   int currentIndex = 0;
 
 
@@ -39,7 +37,7 @@ class _NavBarState extends State<NavBar> {
       child: Explore(),
     ),
     BookMarkView(),
-    ProfileView(),
+    
     // ProfilePage(),
   ];
 
@@ -69,29 +67,20 @@ class _NavBarState extends State<NavBar> {
             label: "Home",
             backgroundColor: Colors.white,
 
-             activeIcon: Icon(
-            Icons.home,
-            color: AppColors.navBarBlue,
-
-          ),),
+            activeIcon: Icon(Icons.home, color: AppColors.navBarBlue),
+          ),
 
           BottomNavigationBarItem(
             backgroundColor: Colors.white,
             icon: Icon(Icons.explore),
             label: "Explore",
-            activeIcon: Icon(
-            Icons.explore,
-            color: AppColors.navBarBlue,
-          ),
+            activeIcon: Icon(Icons.explore, color: AppColors.navBarBlue),
           ),
 
            BottomNavigationBarItem(
              backgroundColor: Colors.white,
             icon: Icon(Icons.bookmark_border),
-            activeIcon: Icon(
-            Icons.bookmark,
-            color: AppColors.navBarBlue,
-          ),
+            activeIcon: Icon(Icons.bookmark, color: AppColors.navBarBlue),
             label: "Bookmark",
           ),
 

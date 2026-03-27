@@ -50,4 +50,23 @@ class AppTextStyle {
   static ThemeData lightTheme = ThemeData(
     textTheme: GoogleFonts.poppinsTextTheme(),
   );
+
+  static TextStyle text16Regular = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w400,
+  );
+
+  static TextStyle text16RegularGrey = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w400,
+    color: AppColors.grey4E,
+  );
+  static TextStyle text13RegularGrey = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 13.sp,
+    fontWeight: FontWeight.w400,
+    color: AppColors.grey4E,
+  );
 }

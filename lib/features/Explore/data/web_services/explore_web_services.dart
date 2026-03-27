@@ -1,4 +1,1 @@
-
-class ExploreWebServices {
-  
-}
+class ExploreWebServices {}
