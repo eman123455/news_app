@@ -44,7 +44,6 @@ import 'package:news_app/features/onboarding/presentation/views/onboarding_view.
 import 'package:news_app/features/profile/data/models/post_model/post_model.dart';
 import 'package:news_app/features/profile/data/models/profile_model.dart';
 import 'package:news_app/features/profile/presentation/views/edit_profile_view.dart';
-import 'package:news_app/features/profile/presentation/views/profile_setup.dart';
 import 'package:news_app/features/profile/presentation/views/profile_view.dart';
 import 'package:news_app/features/profile/profile_business_logic/profile_cubit/profile_cubit.dart';
 import 'package:news_app/features/settings/presentation/views/settings_view.dart';
@@ -90,13 +89,13 @@ class AppRoutes {
         path: kNotifications,
         builder: (context, state) => const NotificationScreen(),
       ),
-      GoRoute(
-        path: kProfileSetup,
-        builder: (context, state) => BlocProvider(
-          create: (context) =>ProfileCubit(),
-          child: ProfileSetup(),
-        ),
-      ),
+      // GoRoute(
+      //   path: kProfileSetup,
+      //   builder: (context, state) => BlocProvider(
+      //     create: (context) =>ProfileCubit(),
+      //     child: ProfileSetup(),
+      //   ),
+      // ),
       GoRoute(
         path: kExplore,
         builder: (context, state) => BlocProvider(
