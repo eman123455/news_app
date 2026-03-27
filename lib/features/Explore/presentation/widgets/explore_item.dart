@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:news_app/core/resources/app_fonts.dart';
 import 'package:news_app/core/resources/app_routes.dart';
 import 'package:news_app/features/Explore/data/model/explore_model.dart';
+import 'package:news_app/features/Explore/presentation/bloc/explore_cubit.dart';
+import 'package:news_app/features/news/news_details_args.dart';
 
 class ExploreItem extends StatelessWidget {
-  const ExploreItem({super.key, required this.explore});
+  const ExploreItem({super.key, required this.explore,required this.onTap});
 
   final ExploreModel explore;
+  final VoidCallback onTap;
+
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push(AppRoutes.kNewsDetailsView, extra: explore),
+      onTap: onTap,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.r),
@@ -52,7 +57,7 @@ class ExploreItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      explore.category?.name ?? 'Unknown Category' ,
+                      explore.category?.name ?? 'Unknown Category',
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: Fonts.semiBold,
@@ -69,7 +74,8 @@ class ExploreItem extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 10.r,
-                            child: Image.network(explore.user!.image??'',
+                            child: Image.network(
+                              explore.user!.image ?? '',
                               errorBuilder: (_, _, _) {
                                 return Image.asset(
                                   'assets/images/png/splash_logo.png',
@@ -77,7 +83,8 @@ class ExploreItem extends StatelessWidget {
                                   // height: 184.h,
                                   fit: BoxFit.cover,
                                 );
-                              },),
+                              },
+                            ),
                           ),
                           SizedBox(width: 4.w),
                           Expanded(

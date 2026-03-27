@@ -8,12 +8,13 @@ part 'explore_state.dart';
 class ExploreCubit extends Cubit<ExploreState> {
   ExploreCubit(this._repository) : super(ExploreInitial());
   final ExploreRepositoryImpl _repository;
+  List<dynamic> followingsUsersList = [];
 
   Future<void> getExplores() async {
     emit(ExploreLoading());
     try {
       final allExploresNews = await _repository.getAllExploresNews();
-      final followingsUsersList = await _repository.getFollowingsUsersList();
+      followingsUsersList = await _repository.getFollowingsUsersList();
       final followingsExplores = followingsUsersList.isEmpty
           ? <ExploreModel>[]
           : await _repository.getFollowingsExplores(followingsUsersList);

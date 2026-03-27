@@ -12,6 +12,8 @@ import 'package:news_app/features/Auth/forget_password/presentation/views/reset_
 import 'package:news_app/features/Auth/login/data/login_web_services/login_web_services.dart';
 import 'package:news_app/features/Auth/login/login_business_logic/login_cubit/login_cubit.dart';
 import 'package:news_app/features/Auth/login/presentation/views/login.dart';
+import 'package:news_app/features/BookMark/book_mark_business_logic/book_mark_cubit/book_mark_cubit.dart';
+import 'package:news_app/features/BookMark/data/repo/book_mark_repo.dart';
 import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dart';
 import 'package:news_app/features/Explore/data/model/explore_model.dart';
 import 'package:news_app/features/Explore/data/repo/explore_repo_implementation.dart';
@@ -27,7 +29,10 @@ import 'package:news_app/features/Trending/presentation/views/trending_view.dart
 import 'package:news_app/features/account_setup/account_setup_business_logic/cubit/account_setup_cubit.dart';
 import 'package:news_app/features/account_setup/data/repo/account_setup_repo_implementation.dart';
 import 'package:news_app/features/account_setup/presentation/views/acount_setup.dart';
+import 'package:news_app/features/news/bloc/post_details_cubit.dart';
+import 'package:news_app/features/news/news_details_args.dart';
 import 'package:news_app/features/news/presentation/views/news_details_view.dart';
+import 'package:news_app/features/news/repo/post_details_repository.dart';
 import 'package:news_app/features/news/news_business_logic/news_cubit/news_cubit.dart';
 import 'package:news_app/features/news/presentation/views/create_news_view.dart';
 import 'package:news_app/features/news/presentation/views/edit_news_view.dart';
@@ -85,9 +90,17 @@ class AppRoutes {
       ),
       GoRoute(
         path: kNewsDetailsView,
-        builder: (context, state) => NewsDetailsView(
-          explore: state.extra as ExploreModel,
-        ),
+        builder: (context, state) {
+          final args = state.extra as NewsDetailsArgs;
+          return BlocProvider(
+            create: (_) => PostDetailsCubit(PostDetailsRepository())
+              ..init(
+                post: args.explore,
+                followingsUsersList: args.followingsUsersList,
+              ),
+            child: NewsDetailsView(explore: args.explore),
+          );
+        },
       ),
       GoRoute(
         path: kLogin,
@@ -108,7 +121,10 @@ class AppRoutes {
         },
       ),
       GoRoute(path: kAcountSetup, builder: (context, state) => AcountSetup()),
-      GoRoute(path: kBookMarkView, builder: (context, state) => BookMarkView()),
+      GoRoute(path: kBookMarkView, builder: (context, state) => BlocProvider(
+        create: (_) => BookmarkCubit(BookmarkRepository())..getBookmarks(),
+        child: BookMarkView(),
+      ),),
       GoRoute(path: kHomePage, builder: (context, state) => HomePage()),
       GoRoute(path: kProfileView, builder: (context, state) => ProfileView()),
       GoRoute(path: kSettingsView, builder: (context, state) => SettingsView()),

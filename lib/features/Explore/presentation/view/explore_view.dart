@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:news_app/core/resources/app_routes.dart';
 import 'package:news_app/features/Explore/presentation/bloc/explore_cubit.dart';
 import 'package:news_app/features/Explore/presentation/widgets/explore_item.dart';
 import 'package:news_app/features/Explore/presentation/widgets/tab_button.dart';
+import 'package:news_app/features/news/news_details_args.dart';
 
 class Explore extends StatefulWidget {
   const Explore({super.key});
@@ -74,8 +77,23 @@ class _ExploreState extends State<Explore> {
                         padding: EdgeInsets.symmetric(horizontal: 24.w),
                         itemCount: currentList.length,
                         separatorBuilder: (_, _) => SizedBox(height: 8.h),
-                        itemBuilder: (context, index) =>
-                            ExploreItem(explore: currentList[index]),
+                        itemBuilder: (context, index) => ExploreItem(
+                          explore: currentList[index],
+                          onTap: () {
+                            print(
+                              'list: ${context.read<ExploreCubit>().followingsUsersList}',
+                            );
+                            context.push(
+                              AppRoutes.kNewsDetailsView,
+                              extra: NewsDetailsArgs(
+                                explore: currentList[index],
+                                followingsUsersList: context
+                                    .read<ExploreCubit>()
+                                    .followingsUsersList,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
