@@ -7,7 +7,7 @@ class ProfileWebServices {
   late Dio dio;
   ProfileWebServices() {
     BaseOptions baseOptions = BaseOptions(
-      baseUrl: AppConstants.baseUrl,
+      baseUrl: AppConstants.supaBaseUrl,
       headers: {
         'apikey': AppConstants.anonKey,
         'Authorization': 'Bearer ${AppConstants.anonKey}',
