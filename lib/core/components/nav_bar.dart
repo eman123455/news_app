@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/resources/app_colors.dart';
+import 'package:news_app/features/BookMark/book_mark_business_logic/book_mark_cubit/book_mark_cubit.dart';
+import 'package:news_app/features/BookMark/data/repo/book_mark_repo.dart';
 import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dart';
 import 'package:news_app/features/Explore/data/repo/explore_repo_implementation.dart';
 import 'package:news_app/features/Explore/network/dio_client.dart';
@@ -38,7 +40,10 @@ class _NavBarState extends State<NavBar> {
       )..getExplores(),
       child: Explore(),
     ),
-    BookMarkView(),
+    BlocProvider(
+      create: (_) => BookmarkCubit(BookmarkRepository())..getBookmarks(),
+      child: BookMarkView(),
+    ),
     ProfileView(),
     // ProfilePage(),
   ];
