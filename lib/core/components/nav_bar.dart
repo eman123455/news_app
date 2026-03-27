@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/core/resources/app_colors.dart';
+import 'package:news_app/features/BookMark/presentation/views/book_mark_view.dart';
+import 'package:news_app/features/Explore/data/repo/explore_repo_implementation.dart';
+import 'package:news_app/features/Explore/network/dio_client.dart';
+import 'package:news_app/features/Explore/presentation/bloc/explore_cubit.dart';
 import 'package:news_app/features/Explore/presentation/view/explore_view.dart';
+import 'package:news_app/features/profile/presentation/profile_view.dart';
 
 import '../../features/HomePage/presentation/home_page.dart';
 
@@ -15,10 +20,27 @@ class _NavBarState extends State<NavBar> {
   int currentIndex = 0;
 
 
+<<<<<<< Updated upstream
   final List<Widget> pages = [
     HomePage(),
      Explore(),
     // BookmarkPage(),
+=======
+  late final List<Widget> pages = [
+    BlocProvider(
+        create: (context) => NewsBloc(
+          UseCaseNews(RepoImpl()),
+        )..add(FetchNews(category: null)),
+        child: HomePage()),
+    BlocProvider(
+      create: (_) => ExploreCubit(
+        ExploreRepositoryImpl(client: DioClient()),
+      )..getExplores(),
+      child: Explore(),
+    ),
+    BookMarkView(),
+    ProfileView(),
+>>>>>>> Stashed changes
     // ProfilePage(),
   ];
 
@@ -34,7 +56,9 @@ class _NavBarState extends State<NavBar> {
 
         onTap: (index) {
           setState(() {
-            currentIndex = index;
+            if (index < pages.length) {
+              currentIndex = index;
+            }
           });
         },
 
