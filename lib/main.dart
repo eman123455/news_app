@@ -13,18 +13,21 @@ import 'package:news_app/core/resources/app_routes.dart';
 import 'package:news_app/features/HomePage/presentation/widgets/notification_services.dart';
 import 'package:news_app/core/utils/service_locator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:news_app/features/HomePage/presentation/widgets/notification_services.dart';
 
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await NotificationServices().initNotifications();
   startServiceLocator();
   await Supabase.initialize(
     url: AppConstants.projectUrl,
     anonKey: AppConstants.anonKey,
   );
+  await NotificationServices().initNotifications();
+
+
 
   runApp(const NewsApp());
 }

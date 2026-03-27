@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:news_app/core/resources/app_constants.dart';
+import 'package:news_app/core/resources/app_routes.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -23,7 +26,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: IconButton(
                 padding: EdgeInsets.all(8.0),
                   constraints: BoxConstraints(),
-                  onPressed: () {},
+                  onPressed: () {
+                  context.push(AppRoutes.kNotifications);
+                  },
                   icon: Icon(
                   Icons.notifications_none_outlined,
                 size: 28,)),

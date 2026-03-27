@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:news_app/core/resources/app_routes.dart';
 import 'package:news_app/core/resources/app_text_style.dart';
 import 'package:news_app/features/HomePage/Domain/Entity/article_entity.dart';
 import 'package:news_app/features/HomePage/presentation/widgets/category_filter_tabs.dart';
 import 'package:news_app/features/HomePage/presentation/widgets/latest_news_card.dart';
 import 'package:news_app/features/HomePage/presentation/widgets/news_items_model.dart';
+import 'package:news_app/features/HomePage/presentation/widgets/notification_services.dart';
 
 import '../../../core/resources/app_colors.dart';
 import 'logic/news_bloc.dart';
@@ -28,6 +27,28 @@ class _HomePageState extends State<HomePage> {
   List<ArticleEntity> filteredArticles = [];
   bool isSearching = false;
   String selectCats = 'All';
+
+  final NotificationServices _notificationServices = NotificationServices();
+  @override
+  void initState(){
+    super.initState();
+    initNotifications();
+
+  }
+
+  Future<void> initNotifications() async{
+    await _notificationServices.initNotifications();
+    _notificationServices.onNotificationTap((postId) {
+      if(!mounted) return;
+      Navigator.pushNamed(context, '/post', arguments: postId);
+    });
+    final postId = await _notificationServices.getInitialPostId();
+    if (postId != null && mounted) {
+      Navigator.pushNamed(context, '/post', arguments: postId);
+    }
+
+
+  }
 
   void search(String query) {
     setState(() {
@@ -52,6 +73,11 @@ class _HomePageState extends State<HomePage> {
     category == 'All' ? null : category.toLowerCase();
     context.read<NewsBloc>().add(FetchNews(category: categoryPara));
   }
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -101,11 +127,6 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Text("Trending",
                               style: AppTextStyle.font16BlackW600),
-                          GestureDetector(
-                            onTap: () {context.go(AppRoutes.kTrendingView);},
-                            child: Text('See all',
-                                style: AppTextStyle.font14Grey4ERegular),
-                          ),
                         ],
                       ),
                       SizedBox(height: 16.h),
@@ -195,9 +216,9 @@ class _HomePageState extends State<HomePage> {
                             ),
                             SizedBox(height: 16.h),
                             Text(
-                              'No results found',
-                              style: AppTextStyle.font16BlackW600.copyWith(
-                           color: AppColors.navBarBlue,)
+                                'No results found',
+                                style: AppTextStyle.font16BlackW600.copyWith(
+                                  color: AppColors.navBarBlue,)
                             ),
                           ],
                         )
@@ -218,7 +239,7 @@ class _HomePageState extends State<HomePage> {
                               sourceLogo:
                               filteredArticles[index].sourceIcon ?? '',
                               time: filteredArticles[index].publishedAt ?? '',
-                            ),
+                            ), article: filteredArticles[index],
                           ),
                         ),
                     ],

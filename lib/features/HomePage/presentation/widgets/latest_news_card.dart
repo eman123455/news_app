@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:news_app/core/resources/app_routes.dart';
 import 'package:news_app/features/HomePage/presentation/widgets/news_items_model.dart';
 import '../../../../core/resources/app_text_style.dart';
+import '../../Domain/Entity/article_entity.dart';
+import 'news_article_detailes_view.dart';
 
 class LatestNewsCard extends StatelessWidget {
   final NewsModel newsModel;
+  final ArticleEntity article;
 
-  const LatestNewsCard({required this.newsModel, super.key});
+  const LatestNewsCard({required this.newsModel, super.key, required this.article});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        //context.push(AppRoutes.kNewsDetailsView);
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => NewsArticleDetailsView(article: article),
+          ),
+        );
       },
       child: Padding(
         padding: EdgeInsets.only(bottom: 16.h),
@@ -106,8 +112,6 @@ class LatestNewsCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-
-
                     ],
                   ),
                 ],

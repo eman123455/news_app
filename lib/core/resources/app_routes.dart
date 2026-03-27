@@ -21,10 +21,13 @@ import 'package:news_app/features/Explore/network/dio_client.dart';
 import 'package:news_app/features/Explore/presentation/bloc/explore_cubit.dart';
 import 'package:news_app/features/Explore/presentation/view/explore_view.dart';
 import 'package:news_app/features/HomePage/Data/RepositryImp/repo_imp.dart';
+import 'package:news_app/features/HomePage/Domain/Entity/article_entity.dart';
 import 'package:news_app/features/HomePage/Domain/UsesCase/use_case_news.dart';
 import 'package:news_app/features/HomePage/presentation/home_page.dart';
 import 'package:news_app/features/HomePage/presentation/logic/news_bloc.dart';
 import 'package:news_app/features/HomePage/presentation/logic/news_event.dart';
+import 'package:news_app/features/HomePage/presentation/widgets/Notification_screen.dart';
+import 'package:news_app/features/HomePage/presentation/widgets/news_article_detailes_view.dart';
 import 'package:news_app/features/Trending/presentation/views/trending_view.dart';
 import 'package:news_app/features/account_setup/account_setup_business_logic/cubit/account_setup_cubit.dart';
 import 'package:news_app/features/account_setup/data/repo/account_setup_repo_implementation.dart';
@@ -73,12 +76,18 @@ class AppRoutes {
   static const String kCreateNewsView = '/CreateNewsView';
   static const String kEditNewsView = '/EditNewsView';
   static const String kNewsView = '/NewsView';
+  static const String kNotifications = '/notifications';
+  static const String kLatestNewsDetails = '/latestNewsDetails';
 
   static GoRouter routes = GoRouter(
     routes: [
       // GoRoute(path: kSplashView, builder: (context, state) => NavBar()),
       GoRoute(path: kSplashView, builder: (context, state) => OnboardingView()),
       GoRoute(path: kNavBar, builder: (context, state) => NavBar()),
+      GoRoute(
+        path: kNotifications,
+        builder: (context, state) => const NotificationScreen(),
+      ),
       GoRoute(
         path: kExplore,
         builder: (context, state) => BlocProvider(
@@ -87,6 +96,10 @@ class AppRoutes {
           )..getExplores(),
           child: const Explore(),
         ),
+      ),
+      GoRoute(
+        path: kLatestNewsDetails,
+        builder: (context, state) => NewsArticleDetailsView(article: ArticleEntity()),
       ),
       GoRoute(
         path: kNewsDetailsView,
