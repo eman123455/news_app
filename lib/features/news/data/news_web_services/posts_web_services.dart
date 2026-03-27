@@ -5,7 +5,7 @@ class PostsWebServices {
   late Dio dio;
   PostsWebServices() {
     BaseOptions baseOptions = BaseOptions(
-      baseUrl: AppConstants.supaBaseUrl,
+      baseUrl: AppConstants.baseUrl,
       headers: {
         'apikey': AppConstants.anonKey,
         'Authorization': 'Bearer ${AppConstants.anonKey}',

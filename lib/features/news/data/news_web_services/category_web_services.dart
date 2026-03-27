@@ -6,7 +6,7 @@ class CategoryWebServices {
   late Dio dio;
   CategoryWebServices() {
     BaseOptions baseOptions = BaseOptions(
-      baseUrl: AppConstants.supaBaseUrl,
+      baseUrl: AppConstants.baseUrl,
       headers: {
         'apikey': AppConstants.anonKey,
         'Authorization': 'Bearer ${AppConstants.anonKey}',

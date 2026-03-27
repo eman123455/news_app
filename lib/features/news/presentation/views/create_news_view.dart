@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:news_app/core/components/custom_text_field.dart';
 import 'package:news_app/core/components/label.dart';
 import 'package:news_app/core/functions/upload_image.dart';
@@ -62,9 +61,7 @@ class _CreateNewsViewState extends State<CreateNewsView> {
                 backgroundColor: Colors.red,
               ),
             );
-          } else if (state is PostNewsSuccess) {
-            context.pop(true);
-          }
+          } else if (state is PostNewsSuccess) {}
         },
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -100,18 +97,16 @@ class _CreateNewsViewState extends State<CreateNewsView> {
                             bottom: 12,
                             right: 12,
                             child: GestureDetector(
-                              onTap: () async {
+                              onTap: ()async{
                                 final image = await pickImageFromDevice();
-                                if (image == null) return;
+                        if (image == null) return;
 
-                                final imageLink = await uploadImageToStorage(
-                                  image,
-                                );
+                        final imageLink = await uploadImageToStorage(image);
 
-                                setState(() {
-                                  selectedImage = image;
-                                  imageUrl = imageLink;
-                                });
+                        setState(() {
+                          selectedImage = image;
+                          imageUrl = imageLink;
+                        });
                               },
                               child: Container(
                                 decoration: BoxDecoration(

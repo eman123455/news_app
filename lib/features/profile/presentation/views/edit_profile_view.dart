@@ -73,7 +73,7 @@ class _EditProfileViewState extends State<EditProfileView> {
       listener: (context, state) {
         print(state);
         if (state is GetProfileSuccess) {
-          context.go(AppRoutes.kProfileView);
+          context.pop(true);
         } else if (state is ProfileUpdateFailed) {
           print(state.errMsg);
         }
