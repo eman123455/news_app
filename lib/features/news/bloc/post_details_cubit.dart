@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/storage/local_storage.dart';
 import 'package:news_app/features/Explore/data/model/comment_model.dart';
@@ -15,6 +14,10 @@ class PostDetailsCubit extends Cubit<PostDetailsState> {
   late ExploreModel _post;
   late String _currentUserId;
 
+  late bool isBookmarked;
+
+  // ── Init ─────────────────────────────────────────────────
+
   Future<void> init({
     required ExploreModel post,
     required List<dynamic> followingsUsersList, // جاية من ExploreCubit
@@ -24,21 +27,29 @@ class PostDetailsCubit extends Cubit<PostDetailsState> {
     try {
       //final prefs = await SharedPreferences.getInstance();
       _currentUserId = await LocalStorage.getUserId();
+      isBookmarked = await _repository.checkIsBookmark(
+        userId: _currentUserId,
+        postId: _post.id!,
+      );
+      // print(response);
 
       // ── هل انا عامل لايك؟ من اللايكات الجاية مع البوست
       final isLiked = post.likes.any((l) => l.userId == _currentUserId);
 
       // ── هل انا عامل فولو؟ من الليست الجاية من ExploreCubit
       final isFollowing = followingsUsersList.any(
-            (f) => f['following_id'] == post.userId,
+        (f) => f['following_id'] == post.userId,
       );
 
-      emit(PostDetailsLoaded(
-        isLiked: isLiked,
-        likesCount: post.likes.length,
-        isFollowing: isFollowing,
-        comments: post.comments.where((c) => c.parentId == null).toList(),
-      ));
+      emit(
+        PostDetailsLoaded(
+          isLiked: isLiked,
+          likesCount: post.likes.length,
+          isFollowing: isFollowing,
+          isBookmarked: isBookmarked,
+          comments: post.comments.where((c) => c.parentId == null).toList(),
+        ),
+      );
     } catch (e) {
       emit(PostDetailsError(e.toString()));
     }
@@ -52,22 +63,18 @@ class PostDetailsCubit extends Cubit<PostDetailsState> {
     final wasLiked = current.isLiked;
 
     // Optimistic update
-    emit(current.copyWith(
-      isLiked: !wasLiked,
-      likesCount: wasLiked ? current.likesCount - 1 : current.likesCount + 1,
-    ));
+    emit(
+      current.copyWith(
+        isLiked: !wasLiked,
+        likesCount: wasLiked ? current.likesCount - 1 : current.likesCount + 1,
+      ),
+    );
 
     try {
       if (wasLiked) {
-        await _repository.unlikePost(
-          postId: _post.id!,
-          userId: _currentUserId,
-        );
+        await _repository.unlikePost(postId: _post.id!, userId: _currentUserId);
       } else {
-        await _repository.likePost(
-          postId: _post.id!,
-          userId: _currentUserId,
-        );
+        await _repository.likePost(postId: _post.id!, userId: _currentUserId);
       }
     } catch (e) {
       // Rollback on error
@@ -103,6 +110,58 @@ class PostDetailsCubit extends Cubit<PostDetailsState> {
     }
   }
 
+  // ── Bookmark / Unbookmark ────────────────────────────────
+  Future<void> toggleBookmark() async {
+    final current = state;
+    if (current is! PostDetailsLoaded) return;
+    final wasBookmarked = current.isBookmarked;
+    emit(current.copyWith(isBookmarked: !wasBookmarked));
+    // current.isBookmarked = !current.isBookmarked;
+    // Optimistic update
+    // emit(current.copyWith(isBookmarked: !isBookmarked));
+    try {
+      if (wasBookmarked) {
+        await _repository.unbookmarkPost(
+          postId: _post.id!,
+          userId: _currentUserId,
+        );
+      } else {
+        await _repository.bookmarkPost(
+          postId: _post.id!,
+          userId: _currentUserId,
+        );
+      }
+    } catch (e) {
+      // Rollback
+      emit(current);
+    }
+  }
+
+  // Future<void> toggleBookmark() async {
+  //   final current = state;
+  //   if (current is! PostDetailsLoaded) return;
+  //
+  //   final wasBookmarked = current.isBookmarked;
+  //   // Optimistic update
+  //   emit(current.copyWith(isBookmarked: !wasBookmarked));
+  //   try {
+  //     if (wasBookmarked) {
+  //       await _repository.unbookmarkPost(
+  //         postId: _post.id!,
+  //         userId: _currentUserId,
+  //       );
+  //     } else {
+  //       await _repository.bookmarkPost(
+  //         postId: _post.id!,
+  //         userId: _currentUserId,
+  //       );
+  //     }
+  //   } catch (e) {
+  //     // Rollback on error
+  //     emit(current);
+  //   }
+  // }
+
   // ── Add Comment ──────────────────────────────────────────
   Future<void> addComment(String content) async {
     final current = state;
@@ -116,9 +175,7 @@ class PostDetailsCubit extends Cubit<PostDetailsState> {
         content: content,
       );
 
-      emit(current.copyWith(
-        comments: [...current.comments, newComment],
-      ));
+      emit(current.copyWith(comments: [...current.comments, newComment]));
     } catch (e) {
       emit(PostDetailsError(e.toString()));
     }
@@ -153,13 +210,13 @@ class PostDetailsCubit extends Cubit<PostDetailsState> {
       emit(PostDetailsError(e.toString()));
     }
   }
+
   void setReply(int commentId, String name) {
     final current = state;
     if (current is! PostDetailsLoaded) return;
-    emit(current.copyWith(
-      replyingToCommentId: commentId,
-      replyingToName: name,
-    ));
+    emit(
+      current.copyWith(replyingToCommentId: commentId, replyingToName: name),
+    );
   }
 
   void clearReply() {

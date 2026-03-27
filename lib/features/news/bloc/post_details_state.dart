@@ -13,6 +13,8 @@ class PostDetailsLoaded extends PostDetailsState {
   final int? replyingToCommentId;
   final String? replyingToName;
   final Set<int> expandedComments;
+  final bool isBookmarked;
+
 
   PostDetailsLoaded({
     required this.isLiked,
@@ -21,6 +23,7 @@ class PostDetailsLoaded extends PostDetailsState {
     required this.comments,
     this.replyingToCommentId,
     this.replyingToName,
+    required this.isBookmarked,
     this.expandedComments = const {},
   });
 
@@ -29,6 +32,7 @@ class PostDetailsLoaded extends PostDetailsState {
     int? likesCount,
     bool? isFollowing,
     List<CommentModel>? comments,
+    bool? isBookmarked,
     int? replyingToCommentId,
     String? replyingToName,
     bool clearReply = false,
@@ -39,6 +43,7 @@ class PostDetailsLoaded extends PostDetailsState {
       likesCount: likesCount ?? this.likesCount,
       isFollowing: isFollowing ?? this.isFollowing,
       comments: comments ?? this.comments,
+      isBookmarked: isBookmarked ?? this.isBookmarked,
       replyingToCommentId: clearReply ? null : replyingToCommentId ?? this.replyingToCommentId,
       replyingToName: clearReply ? null : replyingToName ?? this.replyingToName,
       expandedComments: expandedComments ?? this.expandedComments,

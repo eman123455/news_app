@@ -100,8 +100,7 @@ class NewsDetailsView extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            state.isFollowing
-                                ? 'Following':'Follow',
+                            state.isFollowing ? 'Following' : 'Follow',
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: Fonts.semiBold,
@@ -173,9 +172,7 @@ class NewsDetailsView extends StatelessWidget {
                                 context.read<PostDetailsCubit>().toggleLike(),
                             icon: Icon(
                               Icons.favorite_rounded,
-                              color: state.isLiked
-                                  ? Colors.red
-                                  : Colors.grey,
+                              color: state.isLiked ? Colors.red : Colors.grey,
                             ),
                           ),
                           Text(state.likesCount.toString()),
@@ -214,10 +211,10 @@ class NewsDetailsView extends StatelessWidget {
                   ),
 
                   IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.bookmark_outlined,
-                      color: Colors.blue,
+                    onPressed: () => context.read<PostDetailsCubit>().toggleBookmark(),
+                    icon: Icon(
+                      state.isBookmarked ? Icons.bookmark : Icons.bookmark_outlined,
+                      color: state.isBookmarked ? Colors.blue : Colors.grey,
                     ),
                   ),
                 ],
