@@ -209,7 +209,7 @@ class AppRoutes {
           return AppRoutes.kNavBar;
         }
       }
-
+     
       // not logged in →login
       if (currentLocation == AppRoutes.kSplashView ||
           currentLocation == AppRoutes.kOnboardingView) {

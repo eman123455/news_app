@@ -27,84 +27,85 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
     super.dispose();
   }
 
-  @override
-  void initState() {
-    super.initState();
-    context.read<ForgetPasswordCubit>().initDeepLink();
-  }
+
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
-      builder: (context, state) {
-        return Scaffold(
-          backgroundColor: AppColors.white,
-          appBar: AppBar(
-            backgroundColor: AppColors.white,
-            leading: IconButton(
-              onPressed: () {
-                context.go(AppRoutes.kOtpView);
-              },
-              icon: Icon(Icons.arrow_back, color: AppColors.black),
-            ),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: .start,
-              children: [
-                HeroSection(
-                  head1: 'Reset',
-                  head2: 'Password',
-                  welcomeParagph: '',
-                ),
-                const SizedBox(height: 12),
-                CustomeTextField(
-                  label: 'New Password',
-                  isPassword: true,
-                  controller: _passwordController,
-                ),
-                const SizedBox(height: 12),
-                CustomeTextField(
-                  label: 'Confirme New Password',
-                  isPassword: true,
-                  controller: _confirmPasswordController,
-                ),
-                Spacer(),
-                CustomeButton(
-                  height: 50,
-                  color: AppColors.navBarBlue,
-                  onPressend: () {
-                    context.read<ForgetPasswordCubit>().restPassword(
-                      _passwordController.text,
-                    );
-                  },
-                  buttonName: 'Submit',
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+    return BlocListener<ForgetPasswordCubit, ForgetPasswordState>(
+      listenWhen: (previous, current) => current is DeepLinkReceived,
       listener: (context, state) {
-        if (state is ForgetPasswordSuccess) {
-          context.go(AppRoutes.kConfirmePassView);
-        }
         if (state is DeepLinkReceived) {
           context.go(AppRoutes.kResetPassView);
         }
-        if (state is ForgetPasswordFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Email or Password is Incorrect',
-                style: TextStyle(color: Colors.white),
+      },
+      child: BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: AppColors.white,
+            appBar: AppBar(
+              backgroundColor: AppColors.white,
+              leading: IconButton(
+                onPressed: () {
+                  context.go(AppRoutes.kOtpView);
+                },
+                icon: Icon(Icons.arrow_back, color: AppColors.black),
               ),
-              backgroundColor: Colors.red,
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: .start,
+                children: [
+                  HeroSection(
+                    head1: 'Reset',
+                    head2: 'Password',
+                    welcomeParagph: '',
+                  ),
+                  const SizedBox(height: 12),
+                  CustomeTextField(
+                    label: 'New Password',
+                    isPassword: true,
+                    controller: _passwordController,
+                  ),
+                  const SizedBox(height: 12),
+                  CustomeTextField(
+                    label: 'Confirme New Password',
+                    isPassword: true,
+                    controller: _confirmPasswordController,
+                  ),
+                  Spacer(),
+                  CustomeButton(
+                    height: 50,
+                    color: AppColors.navBarBlue,
+                    onPressend: () {
+                      context.read<ForgetPasswordCubit>().restPassword(
+                        _passwordController.text,
+                      );
+                    },
+                    buttonName: 'Submit',
+                  ),
+                ],
+              ),
             ),
           );
-        }
-      },
+        },
+        listener: (context, state) {
+          if (state is ForgetPasswordSuccess) {
+            context.go(AppRoutes.kConfirmePassView);
+          }
+          if (state is ForgetPasswordFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Email or Password is Incorrect',
+                  style: TextStyle(color: Colors.white),
+                ),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }
