@@ -6,6 +6,7 @@ import 'package:news_app/core/components/custom_circular_progress_indicator.dart
 import 'package:news_app/core/resources/app_colors.dart';
 import 'package:news_app/core/resources/app_routes.dart';
 import 'package:news_app/core/resources/app_text_style.dart';
+import 'package:news_app/features/profile/data/profile_web_services/profile_web_services.dart';
 import 'package:news_app/features/profile/presentation/views/news_part.dart';
 import 'package:news_app/features/profile/presentation/views/recent.dart';
 import 'package:news_app/core/components/custom_button.dart';
@@ -34,7 +35,7 @@ class ProfileView extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(right: 16),
                 child: IconButton(
-                  onPressed: () {
+                  onPressed: () async {
                     context.push(AppRoutes.kSettingsView);
                   },
                   icon: Icon(Icons.settings),
@@ -48,7 +49,9 @@ class ProfileView extends StatelessWidget {
                 return CustomCircularProgressIndicator();
               } else if (state is GetProfileSuccess) {
                 final profile = state.profile;
-
+                final followers = state.followers;
+                final following = state.following;
+                final postsCount = state.postsCount;
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
@@ -64,15 +67,15 @@ class ProfileView extends StatelessWidget {
                             fontsize: 24.sp,
                             userName: profile.fullName,
                           ),
-                          const ProfileStatItem(
-                            count: '2156',
+                          ProfileStatItem(
+                            count: '$followers',
                             label: 'Followers',
                           ),
-                          const ProfileStatItem(
-                            count: '567',
+                           ProfileStatItem(
+                            count: '$following',
                             label: 'Following',
                           ),
-                          const ProfileStatItem(count: '23', label: 'News'),
+                          ProfileStatItem(count: '$postsCount', label: 'News'),
                         ],
                       ),
                       SizedBox(height: 16.h),
@@ -96,11 +99,14 @@ class ProfileView extends StatelessWidget {
                         children: [
                           Expanded(
                             child: CustomButton(
-                              onPressed: () {
-                                context.push(
+                              onPressed: () async {
+                                final result = await context.push(
                                   AppRoutes.kEditProfileView,
                                   extra: profile,
                                 );
+                                if (result == true) {
+                                  context.read<ProfileCubit>().getProfile();
+                                }
                               },
                               buttonText: 'Edit Profile',
                             ),
@@ -114,9 +120,7 @@ class ProfileView extends StatelessWidget {
                           ),
                         ],
                       ),
-
                       SizedBox(height: 20.h),
-
                       TabBar(
                         dividerColor: Colors.transparent,
                         indicatorColor: AppColors.kPrimaryColor,
@@ -150,12 +154,18 @@ class ProfileView extends StatelessWidget {
               }
             },
           ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: AppColors.kPrimaryColor,
-            onPressed: () {
-              context.push(AppRoutes.kCreateNewsView);
-            },
-            child: const Icon(Icons.add, color: Colors.white),
+          floatingActionButton: Builder(
+            builder: (context) => FloatingActionButton(
+              backgroundColor: AppColors.kPrimaryColor,
+              onPressed: () async {
+                final result = await context.push(AppRoutes.kCreateNewsView);
+                if (result == true) {
+                  context.read<PostsCubit>().getUserPosts();
+                  // context.read<ProfileCubit>().getProfile();
+                }
+              },
+              child: const Icon(Icons.add, color: Colors.white),
+            ),
           ),
         ),
       ),

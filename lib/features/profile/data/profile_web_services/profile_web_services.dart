@@ -117,6 +117,68 @@ class ProfileWebServices {
       throw Exception('Unexpected error: $e');
     }
   }
+  Future<dynamic> addProfile({
+    required String userId,
+    required String? username,
+    required String? fullName,
+    required String? email,
+    required String? phone,
+    required String? bio,
+    required String? website,
+    required String? imageUrl,
+    required String? country,
+    required String? role,
+  }) async {
+    try {
+      final Map<String, dynamic> requestBody = {
+        'username': username,
+        'full_name': fullName,
+        'email': email,
+        'phone': phone,
+        'bio': bio,
+        'website': website,
+        'image_url': imageUrl,
+        'country': country,
+        'role': role,
+      };
+      final response = await dio.post(
+        '/profiles?id=eq.$userId',
+        data: requestBody,
+        options: Options(headers: {'Prefer':'return=representation'}),
+      );
+      final data = response.data;
+      final user = ProfileModel.fromJson(data[0]);
+      return user;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        final statusCode = e.response?.statusCode;
+        switch (statusCode) {
+          case 400:
+            throw Exception('Bad request');
+          case 401:
+            throw Exception('Unauthorized');
+          case 403:
+            throw Exception('Forbidden');
+          case 404:
+            throw Exception('Profile not found');
+          case 500:
+            throw Exception('Server error');
+          default:
+            throw Exception('Something went wrong: $statusCode');
+        }
+      } else {
+        if (e.type == DioExceptionType.sendTimeout ||
+            e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          throw Exception('Network timeout. Check your internet connection.');
+        } else {
+          throw Exception('No internet connection or unknown network error');
+        }
+      }
+    } catch (e) {
+      throw Exception('Unexpected error: $e');
+    }
+  }
 
   Future<dynamic> getUserPosts(String userId) async {
     try {
@@ -160,6 +222,42 @@ class ProfileWebServices {
     }
   }
 
+  Future<dynamic> getUserPostCount(String userId) async {
+    try {
+      final response = await dio.get(
+          '/posts?user_id=eq.$userId&&select=count',
+      );
+      return response.data[0]['count'];
+    } on DioException catch (e) {
+      if (e.response != null) {
+        final statusCode = e.response?.statusCode;
+        switch (statusCode) {
+          case 400:
+            throw Exception('Bad request');
+          case 401:
+            throw Exception('Unauthorized');
+          case 403:
+            throw Exception('Forbidden');
+          case 404:
+            throw Exception('posts not found');
+          case 500:
+            throw Exception('Server error');
+          default:
+            throw Exception('Something went wrong: $statusCode');
+        }
+      } else {
+        if (e.type == DioExceptionType.sendTimeout ||
+            e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          throw Exception('Network timeout. Check your internet connection.');
+        } else {
+          throw Exception('No internet connection or unknown network error');
+        }
+      }
+    } catch (e) {
+      throw Exception('Unexpected error: $e');
+    }
+  }
   Future<dynamic> getNewestUserPosts(String userId) async {
     try {
       final response = await dio.get(
@@ -170,7 +268,85 @@ class ProfileWebServices {
       for (var post in data) {
         posts.add(PostModel.fromJson(post));
       }
+      // Sort by created_at descending (newest first)
+      posts.sort((a, b) {
+        final aTime = a.createdAt ?? DateTime(1970);
+        final bTime = b.createdAt ?? DateTime(1970);
+        return bTime.compareTo(aTime);
+      });
       return posts;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        final statusCode = e.response?.statusCode;
+        switch (statusCode) {
+          case 400:
+            throw Exception('Bad request');
+          case 401:
+            throw Exception('Unauthorized');
+          case 403:
+            throw Exception('Forbidden');
+          case 404:
+            throw Exception('posts not found');
+          case 500:
+            throw Exception('Server error');
+          default:
+            throw Exception('Something went wrong: $statusCode');
+        }
+      } else {
+        if (e.type == DioExceptionType.sendTimeout ||
+            e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          throw Exception('Network timeout. Check your internet connection.');
+        } else {
+          throw Exception('No internet connection or unknown network error');
+        }
+      }
+    } catch (e) {
+      throw Exception('Unexpected error: $e');
+    }
+  }
+  Future<dynamic> getFollowersCount(String userId) async {
+    try {
+      final response = await dio.get(
+        '/follows?following_id=eq.$userId&select=count',
+      );
+      return response.data[0]['count'];
+    } on DioException catch (e) {
+      if (e.response != null) {
+        final statusCode = e.response?.statusCode;
+        switch (statusCode) {
+          case 400:
+            throw Exception('Bad request');
+          case 401:
+            throw Exception('Unauthorized');
+          case 403:
+            throw Exception('Forbidden');
+          case 404:
+            throw Exception('posts not found');
+          case 500:
+            throw Exception('Server error');
+          default:
+            throw Exception('Something went wrong: $statusCode');
+        }
+      } else {
+        if (e.type == DioExceptionType.sendTimeout ||
+            e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          throw Exception('Network timeout. Check your internet connection.');
+        } else {
+          throw Exception('No internet connection or unknown network error');
+        }
+      }
+    } catch (e) {
+      throw Exception('Unexpected error: $e');
+    }
+  }
+  Future<dynamic> getFollowingCount(String userId) async {
+    try {
+      final response = await dio.get(
+        '/follows?follower_id=eq.$userId&select=count',
+      );
+      return response.data[0]['count'];
     } on DioException catch (e) {
       if (e.response != null) {
         final statusCode = e.response?.statusCode;
@@ -246,4 +422,5 @@ class ProfileWebServices {
       throw Exception('Unexpected error: $e');
     }
   }
+  
 }

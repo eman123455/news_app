@@ -15,6 +15,7 @@ import 'package:news_app/features/onboarding/presentation/views/onboarding_view.
 import 'package:news_app/features/profile/data/models/post_model/post_model.dart';
 import 'package:news_app/features/profile/data/models/profile_model.dart';
 import 'package:news_app/features/profile/presentation/views/edit_profile_view.dart';
+import 'package:news_app/features/profile/presentation/views/profile_setup.dart';
 import 'package:news_app/features/profile/presentation/views/profile_view.dart';
 import 'package:news_app/features/profile/profile_business_logic/profile_cubit/profile_cubit.dart';
 import 'package:news_app/features/settings/presentation/views/settings_view.dart';
@@ -38,6 +39,7 @@ class AppRoutes {
   static const String kSetupProfileView = '/SetupProfileView';
   static const String kCreateNewsView = '/CreateNewsView';
   static const String kEditNewsView = '/EditNewsView';
+  static const String kProfileSetup = '/ProfileSetup';
 
   static GoRouter routes = GoRouter(
     routes: [
@@ -57,6 +59,14 @@ class AppRoutes {
       GoRoute(
         path: kSetupProfileView,
         builder: (context, state) => SetupProfileView(),
+      ),
+      GoRoute(path: kProfileView, builder: (context, state) => ProfileView()),
+      GoRoute(
+        path: kProfileSetup,
+        builder: (context, state) => BlocProvider(
+          create: (context) =>ProfileCubit(),
+          child: ProfileSetup(),
+        ),
       ),
       GoRoute(path: kBookMarkView, builder: (context, state) => BookMarkView()),
       GoRoute(path: kHomePage, builder: (context, state) => HomePage()),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:news_app/app/app_cubit/app_cubit.dart';
 import 'package:news_app/core/resources/app_colors.dart';
+import 'package:news_app/core/resources/app_routes.dart';
 import 'package:news_app/core/resources/app_text_style.dart';
 import 'package:news_app/features/settings/presentation/widgets/settings_info%20_row.dart';
+import 'package:news_app/core/storage/local_storage.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -14,6 +17,11 @@ class SettingsView extends StatefulWidget {
 
 class _SettingsViewState extends State<SettingsView> {
   bool isDarkMode = false;
+  Future<void> _logout() async {
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +89,10 @@ class _SettingsViewState extends State<SettingsView> {
               prefexIcon: Icons.logout,
               text: 'Logout',
               trailing: null,
-              onPressed: () {},
+              onPressed: ()async{
+                    await LocalStorage.clearUserId();
+    context.go(AppRoutes.kLogin);
+              },
             ),
           ],
         ),

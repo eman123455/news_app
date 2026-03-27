@@ -39,6 +39,33 @@ class ProfileRepoImplementation implements ProfileRepo {
     );
     return response;
   }
+  @override
+  Future<dynamic> addProfile({
+    required String userId,
+    required String? username,
+    required String? fullName,
+    required String? email,
+    required String? phone,
+    required String? bio,
+    required String? website,
+    required String? imageUrl,
+    required String? country,
+    required String? role,
+  })async {
+    final response = await profileWebServices.addProfile(
+      userId: userId,
+      username: username,
+      fullName: fullName,
+      email: email,
+      phone: phone,
+      bio: bio,
+      website: website,
+      imageUrl: imageUrl,
+      country: country,
+      role: role,
+    );
+    return response;
+  }
 
   @override
   Future<dynamic> getUserPosts(String userId) async {
@@ -55,6 +82,22 @@ class ProfileRepoImplementation implements ProfileRepo {
   @override
   Future<dynamic> deletePost(int postId, String userId) async {
     final response = await profileWebServices.deletePost(postId, userId);
+    return response;
+  }
+
+  @override
+  Future<dynamic> getFollowersCount(String userId) async {
+    final response = await profileWebServices.getFollowersCount(userId);
+    return response;
+  }
+  @override
+  Future<dynamic> getFollowingCount(String userId) async {
+    final response = await profileWebServices.getFollowingCount(userId);
+    return response;
+  }
+  @override
+  Future<dynamic> getUserPostCount(String userId) async {
+    final response = await profileWebServices.getUserPostCount(userId);
     return response;
   }
 }
