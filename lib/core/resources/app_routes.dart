@@ -33,8 +33,16 @@ import 'package:news_app/features/news/bloc/post_details_cubit.dart';
 import 'package:news_app/features/news/news_details_args.dart';
 import 'package:news_app/features/news/presentation/views/news_details_view.dart';
 import 'package:news_app/features/news/repo/post_details_repository.dart';
+import 'package:news_app/features/news/news_business_logic/news_cubit/news_cubit.dart';
+import 'package:news_app/features/news/presentation/views/create_news_view.dart';
+import 'package:news_app/features/news/presentation/views/edit_news_view.dart';
+import 'package:news_app/features/news/presentation/views/news_view.dart';
 import 'package:news_app/features/onboarding/presentation/views/onboarding_view.dart';
-import 'package:news_app/features/profile/presentation/profile_view.dart';
+import 'package:news_app/features/profile/data/models/post_model/post_model.dart';
+import 'package:news_app/features/profile/data/models/profile_model.dart';
+import 'package:news_app/features/profile/presentation/views/edit_profile_view.dart';
+import 'package:news_app/features/profile/presentation/views/profile_view.dart';
+import 'package:news_app/features/profile/profile_business_logic/profile_cubit/profile_cubit.dart';
 import 'package:news_app/features/settings/presentation/views/settings_view.dart';
 
 import '../../features/HomePage/Data/RepositryImp/repo_imp.dart';
@@ -60,6 +68,11 @@ class AppRoutes {
   static const String kTrendingView = '/TrendingView';
   static const String kNewsDetailsView = '/newsDetailsView';
   static const String kConfirmePassView = '/ConfirmePassView';
+    static const String kEditProfileView = '/EditProfileView';
+  static const String kSetupProfileView = '/SetupProfileView';
+  static const String kCreateNewsView = '/CreateNewsView';
+  static const String kEditNewsView = '/EditNewsView';
+  static const String kNewsView = '/NewsView';
 
   static GoRouter routes = GoRouter(
     routes: [
@@ -146,17 +159,59 @@ class AppRoutes {
         builder: (context, state) => BlocProvider(
           create: (context) =>
               NewsBloc(UseCaseNews(RepoImpl()))..add(FetchNews(category: null)),
-          child: const HomePage(),
+          child:  HomePage(),
         ),
       ),
       GoRoute(path: kProfileView, builder: (context, state) => ProfileView()),
+      // GoRoute(
+      //   path: kSetupProfileView,
+      //   builder: (context, state) => SetupProfileView(),
+      // ),
+      GoRoute(path: kBookMarkView, builder: (context, state) => BookMarkView()),
+      GoRoute(path: kHomePage, builder: (context, state) => HomePage()),
+      GoRoute(path: kNewsView, builder: (context, state) => NewsView()),
+      GoRoute(
+        path: kCreateNewsView,
+        builder: (context, state) => BlocProvider(
+          create: (context) => NewsCubit(),
+          child: CreateNewsView(),
+        ),
+      ),
+      GoRoute(
+        path: kEditNewsView,
+        builder: (context, state) {
+          final post = state.extra as PostModel;
+          return BlocProvider(
+            create: (context) => NewsCubit(),
+            child: EditNewsView(postModel: post),
+          );
+        },
+      ),
+      GoRoute(path: kProfileView, builder: (context, state) => ProfileView()),
+      GoRoute(
+        path: kEditProfileView,
+        builder: (context, state) {
+          final profile = state.extra as ProfileModel;
+          return BlocProvider(
+            create: (context) => ProfileCubit(),
+            child: EditProfileView(profile: profile),
+          );
+        },
+      ),
       GoRoute(path: kSettingsView, builder: (context, state) => SettingsView()),
+      GoRoute(path: kConfirmePassView,builder: (context,state)=> ConfimeResetPass())
     ],
     redirect: (context, state) async {
       final seen = await LocalStorage.hasSeenOnboarding();
       final user = await LocalStorage.getUserId();
 
       final currentLocation = state.matchedLocation;
+
+      // Skip redirect if on reset-password or confirm-reset-password
+      if (currentLocation == AppRoutes.kResetPassView ||
+          currentLocation == AppRoutes.kConfirmePassView) {
+        return null;
+      }
 
       // onboarding
       if (!seen) {
@@ -171,7 +226,7 @@ class AppRoutes {
           return AppRoutes.kNavBar;
         }
       }
-
+     
       // not logged in →login
       if (currentLocation == AppRoutes.kSplashView ||
           currentLocation == AppRoutes.kOnboardingView) {
