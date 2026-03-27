@@ -6,7 +6,7 @@ class AppConstants {
   static const String projectUrl = 'https://seevcqylpewbkzidrzmn.supabase.co';
   static const String baseUrl = 'https://newsdata.io/api/1';
   static const String apiKey = 'pub_1eff6f268df8451fb392023a14582d83';
-  static const String baseUrlS =
+  static const String supaBaseUrl =
       'https://seevcqylpewbkzidrzmn.supabase.co/rest/v1';
   static final supabase = Supabase.instance.client;
 }

@@ -190,6 +190,12 @@ class AppRoutes {
 
       final currentLocation = state.matchedLocation;
 
+      // Skip redirect if on reset-password or confirm-reset-password
+      if (currentLocation == AppRoutes.kResetPassView ||
+          currentLocation == AppRoutes.kConfirmePassView) {
+        return null;
+      }
+
       // onboarding
       if (!seen) {
         return AppRoutes.kOnboardingView;

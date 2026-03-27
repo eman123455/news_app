@@ -150,12 +150,17 @@ class ProfileView extends StatelessWidget {
               }
             },
           ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: AppColors.kPrimaryColor,
-            onPressed: () {
-              context.push(AppRoutes.kCreateNewsView);
-            },
-            child: const Icon(Icons.add, color: Colors.white),
+          floatingActionButton: Builder(
+            builder: (context) => FloatingActionButton(
+              backgroundColor: AppColors.kPrimaryColor,
+              onPressed: () async {
+                final result = await context.push(AppRoutes.kCreateNewsView);
+                if (result == true) {
+                  context.read<PostsCubit>().getUserPosts();
+                }
+              },
+              child: const Icon(Icons.add, color: Colors.white),
+            ),
           ),
         ),
       ),

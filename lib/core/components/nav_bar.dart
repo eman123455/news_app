@@ -6,7 +6,7 @@ import 'package:news_app/features/Explore/data/repo/explore_repo_implementation.
 import 'package:news_app/features/Explore/network/dio_client.dart';
 import 'package:news_app/features/Explore/presentation/bloc/explore_cubit.dart';
 import 'package:news_app/features/Explore/presentation/view/explore_view.dart';
-
+import 'package:news_app/features/profile/presentation/views/profile_view.dart';
 import '../../features/HomePage/Data/RepositryImp/repo_imp.dart';
 import '../../features/HomePage/Domain/UsesCase/use_case_news.dart';
 import '../../features/HomePage/presentation/home_page.dart';
@@ -37,7 +37,7 @@ class _NavBarState extends State<NavBar> {
       child: Explore(),
     ),
     BookMarkView(),
-    
+    ProfileView(),
     // ProfilePage(),
   ];
 

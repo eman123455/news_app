@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:news_app/core/components/custom_text_field.dart';
 import 'package:news_app/core/components/label.dart';
 import 'package:news_app/core/functions/upload_image.dart';
@@ -64,7 +65,10 @@ class _EditNewsViewState extends State<EditNewsView> {
                 backgroundColor: Colors.red,
               ),
             );
-          } else if (state is PostNewsSuccess) {}
+          } else if (state is PostNewsSuccess) {
+            context.pop(true);
+
+          }
         },
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
