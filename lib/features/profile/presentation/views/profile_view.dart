@@ -71,7 +71,7 @@ class ProfileView extends StatelessWidget {
                             count: '$followers',
                             label: 'Followers',
                           ),
-                           ProfileStatItem(
+                          ProfileStatItem(
                             count: '$following',
                             label: 'Following',
                           ),

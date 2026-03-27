@@ -14,8 +14,8 @@ class PostsCubit extends Cubit<PostsState> {
   Future<void> getUserPosts() async {
     emit(GetPostsLoading());
     try {
-      final userId = await _userId;
-      final List<PostModel> posts = await repo.getUserPosts(userId);
+      final userId = '062b90f8-49cd-4911-8d3a-265924aa0597';
+      final List<PostModel> posts = await repo.getUserPosts('062b90f8-49cd-4911-8d3a-265924aa0597');
       emit(GetPostsSuccess(posts: posts));
     } catch (e) {
       emit(GetPostsFailed(errMsg: e.toString()));
