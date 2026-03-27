@@ -24,14 +24,14 @@ class ConfimeResetPass extends StatelessWidget {
                 Image.asset(AppImages.logo),
                 const SizedBox(height: 24),
                 Text(
-                  'Congratulations!',
+                  'Reset Password!',
                   style: AppTextStyle.font48BlackW700.copyWith(
                     fontSize: 32,
                     color: AppColors.grey4E,
                   ),
                 ),
                 Text(
-                  'Your account is ready to use',
+                  'Check Your Email Address',
                   style: AppTextStyle.font16Grey4EW400,
                 ),
               ],

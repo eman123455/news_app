@@ -183,6 +183,7 @@ class AppRoutes {
         },
       ),
       GoRoute(path: kSettingsView, builder: (context, state) => SettingsView()),
+      GoRoute(path: kConfirmePassView,builder: (context,state)=> ConfimeResetPass())
     ],
     redirect: (context, state) async {
       final seen = await LocalStorage.hasSeenOnboarding();
