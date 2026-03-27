@@ -1,5 +1,3 @@
-// features/BookMark/presentation/cubit/bookmark_state.dart
-
 part of 'book_mark_cubit.dart';
 
 sealed class BookmarkState {}

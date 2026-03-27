@@ -98,15 +98,12 @@ class BookMarkView extends StatelessWidget {
                       child: ListView.separated(
                         padding: EdgeInsets.symmetric(horizontal: 24.w),
                         itemCount: state.filtered.length,
-                        separatorBuilder: (_, __) => SizedBox(height: 16.h),
+                        separatorBuilder: (_, _) => SizedBox(height: 16.h),
                         itemBuilder: (context, index) {
                           final post = state.filtered[index];
                           return ExploreItem(
                             explore: post,
                             onTap: () {
-                              print(
-                                'list: ${state.followingsUsersList}',
-                              );
                               context.push(
                                 AppRoutes.kNewsDetailsView,
                                 extra: NewsDetailsArgs(

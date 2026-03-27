@@ -10,7 +10,7 @@ class ExploreLoading extends ExploreState {}
 class ExploreLoaded extends ExploreState {
   final List<ExploreModel> explores;
   final List<ExploreModel> followingExplores;
-  final int selectedTab; // 0 = For You, 1 = Following
+  final int selectedTab;
 
   ExploreLoaded({
     required this.explores,

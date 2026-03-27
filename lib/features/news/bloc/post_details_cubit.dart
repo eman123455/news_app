@@ -16,27 +16,21 @@ class PostDetailsCubit extends Cubit<PostDetailsState> {
 
   late bool isBookmarked;
 
-  // ── Init ─────────────────────────────────────────────────
 
   Future<void> init({
     required ExploreModel post,
-    required List<dynamic> followingsUsersList, // جاية من ExploreCubit
+    required List<dynamic> followingsUsersList,
   }) async {
     _post = post;
     emit(PostDetailsLoading());
     try {
-      //final prefs = await SharedPreferences.getInstance();
       _currentUserId = await LocalStorage.getUserId();
       isBookmarked = await _repository.checkIsBookmark(
         userId: _currentUserId,
         postId: _post.id!,
       );
-      // print(response);
-
-      // ── هل انا عامل لايك؟ من اللايكات الجاية مع البوست
       final isLiked = post.likes.any((l) => l.userId == _currentUserId);
 
-      // ── هل انا عامل فولو؟ من الليست الجاية من ExploreCubit
       final isFollowing = followingsUsersList.any(
         (f) => f['following_id'] == post.userId,
       );
@@ -55,14 +49,13 @@ class PostDetailsCubit extends Cubit<PostDetailsState> {
     }
   }
 
-  // ── Like / Unlike ────────────────────────────────────────
   Future<void> toggleLike() async {
     final current = state;
     if (current is! PostDetailsLoaded) return;
 
     final wasLiked = current.isLiked;
 
-    // Optimistic update
+
     emit(
       current.copyWith(
         isLiked: !wasLiked,
@@ -82,14 +75,14 @@ class PostDetailsCubit extends Cubit<PostDetailsState> {
     }
   }
 
-  // ── Follow / Unfollow ────────────────────────────────────
+
   Future<void> toggleFollow() async {
     final current = state;
     if (current is! PostDetailsLoaded) return;
 
     final wasFollowing = current.isFollowing;
 
-    // Optimistic update
+
     emit(current.copyWith(isFollowing: !wasFollowing));
 
     try {
@@ -110,15 +103,13 @@ class PostDetailsCubit extends Cubit<PostDetailsState> {
     }
   }
 
-  // ── Bookmark / Unbookmark ────────────────────────────────
+
   Future<void> toggleBookmark() async {
     final current = state;
     if (current is! PostDetailsLoaded) return;
     final wasBookmarked = current.isBookmarked;
     emit(current.copyWith(isBookmarked: !wasBookmarked));
-    // current.isBookmarked = !current.isBookmarked;
-    // Optimistic update
-    // emit(current.copyWith(isBookmarked: !isBookmarked));
+
     try {
       if (wasBookmarked) {
         await _repository.unbookmarkPost(
@@ -132,37 +123,12 @@ class PostDetailsCubit extends Cubit<PostDetailsState> {
         );
       }
     } catch (e) {
-      // Rollback
+
       emit(current);
     }
   }
 
-  // Future<void> toggleBookmark() async {
-  //   final current = state;
-  //   if (current is! PostDetailsLoaded) return;
-  //
-  //   final wasBookmarked = current.isBookmarked;
-  //   // Optimistic update
-  //   emit(current.copyWith(isBookmarked: !wasBookmarked));
-  //   try {
-  //     if (wasBookmarked) {
-  //       await _repository.unbookmarkPost(
-  //         postId: _post.id!,
-  //         userId: _currentUserId,
-  //       );
-  //     } else {
-  //       await _repository.bookmarkPost(
-  //         postId: _post.id!,
-  //         userId: _currentUserId,
-  //       );
-  //     }
-  //   } catch (e) {
-  //     // Rollback on error
-  //     emit(current);
-  //   }
-  // }
 
-  // ── Add Comment ──────────────────────────────────────────
   Future<void> addComment(String content) async {
     final current = state;
     if (current is! PostDetailsLoaded) return;
@@ -181,7 +147,7 @@ class PostDetailsCubit extends Cubit<PostDetailsState> {
     }
   }
 
-  // ── Add Reply ────────────────────────────────────────────
+
   Future<void> addReply({
     required int parentCommentId,
     required String content,

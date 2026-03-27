@@ -1,5 +1,3 @@
-// features/Explore/data/repo/post_details_repository.dart
-
 import 'package:dio/dio.dart';
 import 'package:news_app/features/Explore/data/model/comment_model.dart';
 import 'package:news_app/features/Explore/network/dio_client.dart';
@@ -10,24 +8,6 @@ class PostDetailsRepository {
 
   final Dio _dio;
 
-  // ── Check Follow ─────────────────────────────────────────
-  // Future<bool> checkIsFollowing({
-  //   required String followerId,
-  //   required String followingId,
-  // }) async {
-  //   final response = await _dio.get(
-  //     '/follows',
-  //     queryParameters: {
-  //       'select': '*',
-  //       'follower_id': 'eq.$followerId',
-  //       'following_id': 'eq.$followingId',
-  //     },
-  //   );
-  //   final List data = response.data as List;
-  //   return data.isNotEmpty;
-  // }
-
-  // ── Follow ───────────────────────────────────────────────
   Future<void> followUser({
     required String followerId,
     required String followingId,
@@ -38,7 +18,6 @@ class PostDetailsRepository {
     );
   }
 
-  // ── Unfollow ─────────────────────────────────────────────
   Future<void> unfollowUser({
     required String followerId,
     required String followingId,
@@ -52,12 +31,11 @@ class PostDetailsRepository {
     );
   }
 
-  // ── Like ─────────────────────────────────────────────────
   Future<void> likePost({required int postId, required String userId}) async {
     await _dio.post('/likes', data: {'post_id': postId, 'user_id': userId});
   }
 
-  // ── Unlike ───────────────────────────────────────────────
+
   Future<void> unlikePost({required int postId, required String userId}) async {
     await _dio.delete(
       '/likes',
@@ -74,19 +52,13 @@ class PostDetailsRepository {
     );
     List bookmarks = response.data as List;
 
-    print('test bookmark');
-    print(postId);
-    print(bookmarks);
+
+
     bool exists = bookmarks.any((item) => item['post_id'] == postId);
-    print(exists);
+
     return exists;
 
-    // return bookmarks.contains(postId);
 
-
-    // final List data = response.data as List;
-    // print('test test');
-    // print(data.first);
 
 
   }
@@ -113,9 +85,7 @@ class PostDetailsRepository {
     );
 
     final List data = response2.data as List;
-    print('test test');
-    print(data.first);
-    // return BookmarkModel.fromJson(data.first as Map<String, dynamic>);
+
   }
   Future<void> unbookmarkPost({
     required int postId,
@@ -131,7 +101,7 @@ class PostDetailsRepository {
 
   }
 
-  // ── Add Comment / Reply ──────────────────────────────────
+
   Future<CommentModel> addComment({
     required int postId,
     required String userId,
@@ -158,12 +128,11 @@ class PostDetailsRepository {
     );
 
     final List data = response2.data as List;
-    print('test test');
-    print(data.first);
+
     return CommentModel.fromJson(data.first as Map<String, dynamic>);
   }
 
-  // ── Fetch Comments ───────────────────────────────────────
+
   Future<List<CommentModel>> fetchComments(int postId) async {
     final response = await _dio.get(
       '/comments',

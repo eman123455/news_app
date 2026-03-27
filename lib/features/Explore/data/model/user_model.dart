@@ -10,8 +10,6 @@ class UserModel {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    print('User Json');
-    print(json);
     return UserModel(
       id: json['id'].toString(),
       name: json['username'] ?? '',

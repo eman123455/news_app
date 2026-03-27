@@ -73,6 +73,7 @@ class _HomePageState extends State<HomePage> {
     category == 'All' ? null : category.toLowerCase();
     context.read<NewsBloc>().add(FetchNews(category: categoryPara));
   }
+  @override
   void dispose() {
     searchController.dispose();
     super.dispose();

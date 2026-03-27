@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:news_app/core/functions/time_ago.dart';
 import 'package:news_app/core/resources/app_fonts.dart';
 import 'package:news_app/core/resources/app_routes.dart';
 import 'package:news_app/features/Explore/data/model/explore_model.dart';
@@ -104,7 +105,7 @@ class ExploreItem extends StatelessWidget {
                               Icon(Icons.access_time_rounded, size: 14.sp),
                               SizedBox(width: 4.w),
                               Text(
-                                _formatDate(explore.createdAt),
+                                timeAgo(explore.createdAt),
                                 style: TextStyle(fontSize: 14.sp),
                               ),
                             ],
@@ -122,10 +123,5 @@ class ExploreItem extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime date) {
-    final difference = DateTime.now().difference(date);
-    if (difference.inMinutes < 60) return '${difference.inMinutes} min ago';
-    if (difference.inHours < 24) return '${difference.inHours} hours ago';
-    return '${difference.inDays} days ago';
-  }
+
 }

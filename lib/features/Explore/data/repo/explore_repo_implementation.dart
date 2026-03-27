@@ -13,13 +13,7 @@ class ExploreRepositoryImpl implements ExploreRepository {
   @override
   Future<List<ExploreModel>> getAllExploresNews() async {
     try {
-      // final response = await _dio.get(
-      //   '/posts',
-      //   queryParameters: {
-      //     'select': '*',
-      //     'order': 'created_at.desc',
-      //   },
-      // );
+
       final response = await _dio.get(
         '/posts',
         queryParameters: {
@@ -30,10 +24,7 @@ class ExploreRepositoryImpl implements ExploreRepository {
       );
 
       final List data = response.data as List;
-      // print('----------');
-      // // print(response);
-      // print(response.data);
-      // print('----------');
+
       return ExploreModel.fromJsonList(data);
     } on DioException catch (e) {
       throw _mapDioError(e);
@@ -63,8 +54,6 @@ class ExploreRepositoryImpl implements ExploreRepository {
   @override
   Future<List<dynamic>> getFollowingsUsersList() async {
     final userId = await LocalStorage.getUserId();
-    print(userId);
-    print('getFollowings');
     final response = await _dio.get(
       '/follows',
       queryParameters: {
@@ -74,7 +63,6 @@ class ExploreRepositoryImpl implements ExploreRepository {
         'order': 'created_at.desc',
       },
     );
-    print(response.data);
     return response.data;
   }
 

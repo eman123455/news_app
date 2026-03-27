@@ -36,8 +36,7 @@ class ExploreModel {
   });
 
   factory ExploreModel.fromJson(Map<String, dynamic> json) {
-    // print('User Json');
-    // print(json['profile']);
+
     return ExploreModel(
       id: json['id'] as int,
       userId: json['user_id'] as String,

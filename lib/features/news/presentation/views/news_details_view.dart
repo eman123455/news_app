@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:news_app/core/components/custom_app_bar.dart';
+import 'package:news_app/core/functions/time_ago.dart';
 import 'package:news_app/core/resources/app_fonts.dart';
 import 'package:news_app/features/Explore/data/model/explore_model.dart';
-import 'package:news_app/features/news/bloc/post_details_cubit.dart';
 import 'package:news_app/features/news/bloc/post_details_cubit.dart';
 import 'package:news_app/features/news/presentation/widgets/comments_bottom_sheet.dart';
 import 'package:news_app/features/news/presentation/widgets/read_more_text.dart';
@@ -74,7 +74,7 @@ class NewsDetailsView extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  _formatDate(explore.createdAt),
+                                  timeAgo(explore.createdAt),
                                   style: TextStyle(fontSize: 14.sp),
                                 ),
                               ],
@@ -164,7 +164,6 @@ class NewsDetailsView extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      // ── Like Button ─────────────────────
                       Row(
                         children: [
                           IconButton(
@@ -181,7 +180,6 @@ class NewsDetailsView extends StatelessWidget {
 
                       SizedBox(width: 30.w),
 
-                      // ── Comment Button ──────────────────
                       Row(
                         children: [
                           IconButton(
@@ -193,7 +191,6 @@ class NewsDetailsView extends StatelessWidget {
                                 builder: (_) => BlocProvider.value(
                                   value: context.read<PostDetailsCubit>(),
                                   child: CommentsSheet(
-                                    // comments: state.comments,
                                     postId: explore.id!,
                                   ),
                                 ),
@@ -228,12 +225,5 @@ class NewsDetailsView extends StatelessWidget {
         }
       },
     );
-  }
-
-  String _formatDate(DateTime date) {
-    final difference = DateTime.now().difference(date);
-    if (difference.inMinutes < 60) return '${difference.inMinutes} min ago';
-    if (difference.inHours < 24) return '${difference.inHours} hours ago';
-    return '${difference.inDays} days ago';
   }
 }

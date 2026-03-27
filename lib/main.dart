@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:news_app/app/app_cubit/app_cubit.dart';
 import 'package:news_app/features/Auth/forget_password/forget_pass_business_logic/cubit/forget_password_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/global/theme/theme_data/theme_data_dark.dart';
 import 'package:news_app/core/global/theme/theme_data/theme_data_light.dart';
 import 'package:news_app/core/resources/app_constants.dart';
@@ -13,8 +12,6 @@ import 'package:news_app/core/resources/app_routes.dart';
 import 'package:news_app/features/HomePage/presentation/widgets/notification_services.dart';
 import 'package:news_app/core/utils/service_locator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:news_app/features/HomePage/presentation/widgets/notification_services.dart';
-
 import 'firebase_options.dart';
 
 void main() async {

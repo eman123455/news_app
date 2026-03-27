@@ -80,9 +80,6 @@ class _ExploreState extends State<Explore> {
                         itemBuilder: (context, index) => ExploreItem(
                           explore: currentList[index],
                           onTap: () {
-                            print(
-                              'list: ${context.read<ExploreCubit>().followingsUsersList}',
-                            );
                             context.push(
                               AppRoutes.kNewsDetailsView,
                               extra: NewsDetailsArgs(

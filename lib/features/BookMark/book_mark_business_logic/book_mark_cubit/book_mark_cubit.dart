@@ -1,5 +1,3 @@
-// features/BookMark/presentation/cubit/bookmark_cubit.dart
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/storage/local_storage.dart';
 import 'package:news_app/features/BookMark/data/repo/book_mark_repo.dart';
