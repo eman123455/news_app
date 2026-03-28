@@ -12,6 +12,8 @@ import 'package:news_app/features/profile/data/models/profile_model.dart';
 import 'package:news_app/features/profile/presentation/widgets/custom_profile_photo.dart';
 import 'package:news_app/features/profile/profile_business_logic/posts_cubit/posts_cubit.dart';
 import 'package:news_app/core/components/delete_confirmation_sheet.dart';
+import 'package:news_app/features/profile/profile_business_logic/profile_cubit/profile_cubit.dart';
+
 
 class CustomNewsCard extends StatelessWidget {
   const CustomNewsCard({
@@ -112,7 +114,7 @@ class CustomNewsCard extends StatelessWidget {
                         PopupMenuItem(value: 'Edit', child: Text('Edit')),
                         PopupMenuItem(value: 'Delete', child: Text('Delete')),
                       ],
-                      onSelected: (value) {
+                      onSelected: (value) async{
                         if (value == 'Delete') {
                           DeleteConfirmationSheet.show(
                             context,
@@ -122,10 +124,16 @@ class CustomNewsCard extends StatelessWidget {
                               BlocProvider.of<PostsCubit>(
                                 context,
                               ).deletePost(postModel.id!);
+                             context.read<ProfileCubit>().getProfile();
+
                             },
                           );
-                        } else if (value == 'Edit') {
-                          context.push(AppRoutes.kEditNewsView, extra: postModel);
+                        } else if (value == 'Edit'){
+                        final result= await context.push(AppRoutes.kEditNewsView, extra: postModel);
+                            if (result == true) {
+                          context.read<PostsCubit>().getUserPosts();
+                }
+                          
                         }
                       },
                     ),

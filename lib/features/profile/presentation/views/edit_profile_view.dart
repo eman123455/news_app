@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import 'package:news_app/core/functions/upload_image.dart';
 import 'package:news_app/core/functions/validation.dart';
 import 'package:news_app/core/resources/app_colors.dart';
-import 'package:news_app/core/resources/app_routes.dart';
 import 'package:news_app/core/resources/app_text_style.dart';
 import 'package:news_app/core/components/custom_button.dart';
 import 'package:news_app/core/components/custom_text_field.dart';

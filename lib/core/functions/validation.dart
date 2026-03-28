@@ -1,3 +1,4 @@
+
 class Validation {
   static String? fullNameValidator(String? value) {
     if (value == null || value.trim().isEmpty) {
@@ -57,6 +58,42 @@ class Validation {
     String pattern = r'^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\- ./?%&=]*)?$';
     if (!RegExp(pattern).hasMatch(value.trim())) {
       return 'Please enter a valid website URL';
+    }
+    return null;
+  }
+    static String? newsTitleValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Title is required';
+    }
+    if (value.trim().length < 3) {
+      return 'Title must be at least 3 characters';
+    }
+    return null;
+  }
+
+ static String? newsCountryValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Country is required';
+    }
+    if (value.trim().length < 2) {
+      return 'Country must be at least 2 characters';
+    }
+    return null;
+  }
+
+   static String? newsContentValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Content is required';
+    }
+    if (value.trim().length < 10) {
+      return 'Content must be at least 10 characters';
+    }
+    return null;
+  }
+
+ static String? newsCategoryValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Category is required';
     }
     return null;
   }

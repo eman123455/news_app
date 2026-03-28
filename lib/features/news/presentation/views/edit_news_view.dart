@@ -1,8 +1,10 @@
+import 'package:news_app/core/functions/validation.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:news_app/core/components/custom_text_field.dart';
 import 'package:news_app/core/components/label.dart';
 import 'package:news_app/core/functions/upload_image.dart';
@@ -64,7 +66,9 @@ class _EditNewsViewState extends State<EditNewsView> {
                 backgroundColor: Colors.red,
               ),
             );
-          } else if (state is PostNewsSuccess) {}
+          } else if (state is PostNewsSuccess) {
+            context.pop(true);
+          }
         },
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -100,16 +104,18 @@ class _EditNewsViewState extends State<EditNewsView> {
                             bottom: 12,
                             right: 12,
                             child: GestureDetector(
-                              onTap: ()async{
+                              onTap: () async {
                                 final image = await pickImageFromDevice();
-                        if (image == null) return;
+                                if (image == null) return;
 
-                        final imageLink = await uploadImageToStorage(image);
+                                final imageLink = await uploadImageToStorage(
+                                  image,
+                                );
 
-                        setState(() {
-                          selectedImage = image;
-                          imageUrl = imageLink;
-                        });
+                                setState(() {
+                                  selectedImage = image;
+                                  imageUrl = imageLink;
+                                });
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -135,6 +141,7 @@ class _EditNewsViewState extends State<EditNewsView> {
                       hintText: 'enter title',
                       obscureText: false,
                       controller: _titleController,
+                      validator: Validation.newsTitleValidator,
                     ),
                     SizedBox(height: 20.h),
                     Label(title: 'Country'),
@@ -143,6 +150,7 @@ class _EditNewsViewState extends State<EditNewsView> {
                       hintText: 'enter country',
                       obscureText: false,
                       controller: _countryController,
+                      validator: Validation.newsCountryValidator,
                     ),
                     SizedBox(height: 20.h),
                     Label(title: 'Category'),
@@ -155,21 +163,50 @@ class _EditNewsViewState extends State<EditNewsView> {
                         });
                       },
                     ),
+                    Builder(
+                      builder: (context) {
+                        final error = Validation.newsCategoryValidator(selectedCategoryId);
+                        return error != null
+                            ? Padding(
+                                padding: const EdgeInsets.only(left: 8, top: 4),
+                                child: Text(error, style: TextStyle(color: Colors.red, fontSize: 12)),
+                              )
+                            : SizedBox.shrink();
+                      },
+                    ),
                     SizedBox(height: 20.h),
                     Label(title: 'Content'),
                     SizedBox(height: 8.h),
                     NewsContentInput(controller: _contentController),
+                    Builder(
+                      builder: (context) {
+                        final error = Validation.newsContentValidator(_contentController.text);
+                        return error != null
+                            ? Padding(
+                                padding: const EdgeInsets.only(left: 8, top: 4),
+                                child: Text(error, style: TextStyle(color: Colors.red, fontSize: 12)),
+                              )
+                            : SizedBox.shrink();
+                      },
+                    ),
                     SizedBox(height: 32.h),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: PublishButton(
                         onPressed: () {
+                          final isValid = _key.currentState?.validate() ?? false;
+                          final categoryError = Validation.newsCategoryValidator(selectedCategoryId);
+                          final contentError = Validation.newsContentValidator(_contentController.text);
+                          setState(() {}); 
+                          if (!isValid || categoryError != null || contentError != null) return;
                           BlocProvider.of<NewsCubit>(context).updatePost(
                             postId: widget.postModel.id!,
                             title: _titleController.text,
                             content: _contentController.text,
                             imageUrl: imageUrl ?? widget.postModel.imageUrl!,
-                            categoryId: int.tryParse(selectedCategoryId!) ?? widget.postModel.id!,
+                            categoryId:
+                                int.tryParse(selectedCategoryId??'1') ??
+                                widget.postModel.id!,
                             country: _countryController.text,
                           );
                         },

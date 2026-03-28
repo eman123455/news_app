@@ -6,7 +6,6 @@ import 'package:news_app/core/components/custom_circular_progress_indicator.dart
 import 'package:news_app/core/resources/app_colors.dart';
 import 'package:news_app/core/resources/app_routes.dart';
 import 'package:news_app/core/resources/app_text_style.dart';
-import 'package:news_app/features/profile/data/profile_web_services/profile_web_services.dart';
 import 'package:news_app/features/profile/presentation/views/news_part.dart';
 import 'package:news_app/features/profile/presentation/views/recent.dart';
 import 'package:news_app/core/components/custom_button.dart';
@@ -161,7 +160,7 @@ class ProfileView extends StatelessWidget {
                 final result = await context.push(AppRoutes.kCreateNewsView);
                 if (result == true) {
                   context.read<PostsCubit>().getUserPosts();
-                  // context.read<ProfileCubit>().getProfile();
+                  context.read<ProfileCubit>().getProfile();
                 }
               },
               child: const Icon(Icons.add, color: Colors.white),

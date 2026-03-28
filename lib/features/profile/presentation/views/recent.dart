@@ -10,6 +10,9 @@ class Recent extends StatelessWidget {
   final ProfileModel user;
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<PostsCubit>().getNewestUserPosts();
+    });
     return BlocBuilder<PostsCubit, PostsState>(
       builder: (context, state) {
         if (state is GetPostsLoading || state is PostsInitial) {
